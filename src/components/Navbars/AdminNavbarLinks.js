@@ -27,7 +27,7 @@ export default function AdminNavbarLinks() {
   const classes = useStyles();
   const [openNotification, setOpenNotification] = React.useState(null);
   const [openProfile, setOpenProfile] = React.useState(null);
-  const handleClickNotification = event => {
+  const handleClickNotification = (event) => {
     if (openNotification && openNotification.contains(event.target)) {
       setOpenNotification(null);
     } else {
@@ -37,7 +37,7 @@ export default function AdminNavbarLinks() {
   const handleCloseNotification = () => {
     setOpenNotification(null);
   };
-  const handleClickProfile = event => {
+  const handleClickProfile = (event) => {
     if (openProfile && openProfile.contains(event.target)) {
       setOpenProfile(null);
     } else {
@@ -49,6 +49,7 @@ export default function AdminNavbarLinks() {
   };
   return (
     <div>
+      {/* 1. 우상단 검색바 사라지게 설정
       <div className={classes.searchWrapper}>
         <CustomInput
           formControlProps={{
@@ -65,6 +66,8 @@ export default function AdminNavbarLinks() {
           <Search />
         </Button>
       </div>
+      우상단 검색바 사라지게 설정 */}
+      {/* 2. 우상단 대쉬보드바 사라지게 설정
       <Button
         color={window.innerWidth > 959 ? "transparent" : "white"}
         justIcon={window.innerWidth > 959}
@@ -77,6 +80,8 @@ export default function AdminNavbarLinks() {
           <p className={classes.linkText}>Dashboard</p>
         </Hidden>
       </Button>
+      우상단 대쉬보드바 사라지게 설정 */}
+      {/* 3. 우상단 노티비케이션 사라지게 설정
       <div className={classes.manager}>
         <Button
           color={window.innerWidth > 959 ? "transparent" : "white"}
@@ -112,7 +117,7 @@ export default function AdminNavbarLinks() {
               id="notification-menu-list-grow"
               style={{
                 transformOrigin:
-                  placement === "bottom" ? "center top" : "center bottom"
+                  placement === "bottom" ? "center top" : "center bottom",
               }}
             >
               <Paper>
@@ -155,6 +160,7 @@ export default function AdminNavbarLinks() {
           )}
         </Poppers>
       </div>
+      우상단 노티비케이션 사라지게 설정 */}
       <div className={classes.manager}>
         <Button
           color={window.innerWidth > 959 ? "transparent" : "white"}
@@ -167,7 +173,8 @@ export default function AdminNavbarLinks() {
         >
           <Person className={classes.icons} />
           <Hidden mdUp implementation="css">
-            <p className={classes.linkText}>Profile</p>
+            <p className={classes.linkText}>병원장님</p>{" "}
+            {/*로그인한 사람 이름 나오게 */}
           </Hidden>
         </Button>
         <Poppers
@@ -187,7 +194,7 @@ export default function AdminNavbarLinks() {
               id="profile-menu-list-grow"
               style={{
                 transformOrigin:
-                  placement === "bottom" ? "center top" : "center bottom"
+                  placement === "bottom" ? "center top" : "center bottom",
               }}
             >
               <Paper>
@@ -197,20 +204,14 @@ export default function AdminNavbarLinks() {
                       onClick={handleCloseProfile}
                       className={classes.dropdownItem}
                     >
-                      Profile
-                    </MenuItem>
-                    <MenuItem
-                      onClick={handleCloseProfile}
-                      className={classes.dropdownItem}
-                    >
-                      Settings
+                      프로필
                     </MenuItem>
                     <Divider light />
                     <MenuItem
                       onClick={handleCloseProfile}
                       className={classes.dropdownItem}
                     >
-                      Logout
+                      로그아웃
                     </MenuItem>
                   </MenuList>
                 </ClickAwayListener>
