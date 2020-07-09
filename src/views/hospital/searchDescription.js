@@ -1,7 +1,7 @@
 import React from "react";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
-import InputLabel from "@material-ui/core/InputLabel";
+//import InputLabel from "@material-ui/core/InputLabel";
 // core components
 import GridItem from "components/Grid/GridItem.js";
 import GridContainer from "components/Grid/GridContainer.js";
@@ -107,6 +107,14 @@ export default function SearchDescription() {
               검색 조건에 맞는 처방전 결과를 조회합니다.
             </p>
           </CardHeader>
+          <br />
+          <GridItem xs={12} sm={12} md={3}>
+            <select name="job">
+              <option value="">정렬 순</option>
+              <option value="학생">진료일자</option>
+              <option value="회사원">환자명</option>
+            </select>
+          </GridItem>
           <CardBody>
             <Table
               tableHeaderColor="primary"
