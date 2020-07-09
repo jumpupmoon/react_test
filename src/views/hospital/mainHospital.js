@@ -18,7 +18,7 @@ import CardBody from "components/Card/CardBody.js";
 
 import styles from "assets/jss/material-dashboard-react/views/dashboardStyle.js";
 
-import logo from "assets/img/logo.png";
+import logo from "assets/img/mainCard.jpg";
 
 const useStyles = makeStyles(styles);
 
@@ -29,10 +29,7 @@ export default function Dashboard() {
       <Card>
         <CardBody>
           <center>
-            <h1>
-              <img src={logo} />
-              약이요(병원)
-            </h1>
+            <img src={logo} />
           </center>
           <center>
             <h2>환자의 처방전을 안전하게 전송합니다</h2>
