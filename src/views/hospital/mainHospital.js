@@ -65,7 +65,7 @@ export default function Dashboard() {
         </GridItem>
         <GridItem xs={12} sm={12} md={6}>
           <Card>
-            <CardHeader color="warning">
+            <CardHeader color="primary">
               <h4 className={classes.cardTitleWhite}>의사 현황</h4>
               <p className={classes.cardCategoryWhite}>
                 현재 병원의 의사 현황을 보여줍니다.
@@ -73,7 +73,7 @@ export default function Dashboard() {
             </CardHeader>
             <CardBody>
               <Table
-                tableHeaderColor="warning"
+                tableHeaderColor="primary"
                 tableHead={["ID", "이름", "의사면허번호"]}
                 tableData={[
                   ["1", "김기범", "36738"],
