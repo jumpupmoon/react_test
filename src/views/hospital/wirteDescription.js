@@ -6,11 +6,13 @@ import GridItem from "components/Grid/GridItem.js";
 import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
-import Table from "components/Table/Table.js";
 import { makeStyles } from "@material-ui/core/styles";
 import styles from "assets/jss/material-dashboard-react/views/dashboardStyle.js";
 import CustomInput from "components/CustomInput/CustomInput.js";
-import InputLabel from "@material-ui/core/InputLabel";
+import Table from "@material-ui/core/Table";
+import TableRow from "@material-ui/core/TableRow";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
 const useStyles = makeStyles(styles);
 
 function AddModal(props) {
@@ -44,7 +46,7 @@ function AddModal(props) {
 }
 
 const WirteDescription = () => {
-    const data = [
+    let data = [
         ['약 이름1'],
         ['약 이름2'],
         ['약 이름3'],
@@ -52,26 +54,17 @@ const WirteDescription = () => {
         ['약 이름5'],
     ];
 
-    const classes = useStyles();
-    const [modalShow, setModalShow] = useState(false);
-    const [medicine, setMedicine] = useState(data);
-
-    const addMedi = (data) => {
-        data.map((item, idx) => {
-            if(item.length > 1) item.pop();
-            item.push(<Button variant="danger" onClick={() => delMedi(idx)}>삭제</Button>);
-            return item;
-        });
-    }
-
     const delMedi = (idx) => {
-        data.splice(idx, 1)
-        addMedi(data);
-        setMedicine(data);
+        let res = medicine.filter((row, i) => {
+            return i !== idx;
+        })
+        setMedicine(res);
     }
-
-    addMedi(data);
-
+    
+    const classes = useStyles();
+    const [medicine, setMedicine] = useState(data);
+    const [modalShow, setModalShow] = useState(false);
+    
     return (
         <div class="container">
             <form method="get" action="/admin">
@@ -84,7 +77,7 @@ const WirteDescription = () => {
                     <GridItem xs={9} sm={9} md={9} />
                     <GridItem xs={3} sm={3} md={3}> 
                         <Button variant="secondary">처방</Button>
-                        <Button>약 추가</Button>
+                        <Button onClick={() => setModalShow(true)}>약 추가</Button>
                     </GridItem>
 
                 </GridContainer>
@@ -124,10 +117,28 @@ const WirteDescription = () => {
                                 <h4 className={classes.cardTitleWhite}>약 목록</h4>
                             </CardHeader>
                             <CardBody>
-                                <Table
-                                tableHeaderColor="warning"
-                                tableData={medicine}
-                                />
+                                <div className={classes.tableResponsive}>
+                                    <Table className={classes.table}>
+                                        <TableBody>
+                                        {medicine.map((prop, key) => {
+                                            return (
+                                            <TableRow key={key} className={classes.tableBodyRow}>
+                                                {prop.map((prop, key) => {
+                                                return (
+                                                    <TableCell className={classes.tableCell} key={key}>
+                                                    {prop}
+                                                    </TableCell>
+                                                );
+                                                })}
+                                                <TableCell className={classes.tableCell}>
+                                                    <Button variant="danger" onClick={() => delMedi(key)}>삭제</Button>
+                                                </TableCell>
+                                            </TableRow>
+                                            );
+                                        })}
+                                        </TableBody>
+                                    </Table>
+                                </div>
                             </CardBody>
                         </Card>
                     </GridItem>
@@ -154,7 +165,7 @@ const WirteDescription = () => {
                         </Card>                    
                     </GridItem>
                 </GridContainer>
-             
+            
             </form>
         </div>
     )
