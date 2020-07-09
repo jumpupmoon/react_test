@@ -18,7 +18,7 @@ import CardBody from "components/Card/CardBody.js";
 
 import styles from "assets/jss/material-dashboard-react/views/dashboardStyle.js";
 
-import logo from "assets/img/logo.png";
+import logo from "assets/img/mainCard.jpg";
 
 const useStyles = makeStyles(styles);
 
@@ -29,10 +29,7 @@ export default function Dashboard() {
       <Card>
         <CardBody>
           <center>
-            <h1>
-              <img src={logo} />
-              약이요(병원)
-            </h1>
+            <img src={logo} />
           </center>
           <center>
             <h2>환자의 처방전을 안전하게 전송합니다</h2>
@@ -65,7 +62,7 @@ export default function Dashboard() {
         </GridItem>
         <GridItem xs={12} sm={12} md={6}>
           <Card>
-            <CardHeader color="warning">
+            <CardHeader color="primary">
               <h4 className={classes.cardTitleWhite}>의사 현황</h4>
               <p className={classes.cardCategoryWhite}>
                 현재 병원의 의사 현황을 보여줍니다.
@@ -73,7 +70,7 @@ export default function Dashboard() {
             </CardHeader>
             <CardBody>
               <Table
-                tableHeaderColor="warning"
+                tableHeaderColor="primary"
                 tableHead={["ID", "이름", "의사면허번호"]}
                 tableData={[
                   ["1", "김기범", "36738"],
