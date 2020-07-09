@@ -19,7 +19,6 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { createBrowserHistory } from "history";
 import { Router, Route, Switch, Redirect } from "react-router-dom";
-import wirteDescription from './views/hospital/wirteDescription';
 
 // core components
 import Admin from "layouts/Admin.js";
@@ -32,10 +31,9 @@ const hist = createBrowserHistory();
 ReactDOM.render(
   <Router history={hist}>
     <Switch>
-      <Route exact path="/hospital/wirteDescription" component={wirteDescription} />
       <Route path="/admin" component={Admin} />
       <Route path="/rtl" component={RTL} />
-      <Redirect from="/" to="/hospital/wirteDescription" />
+      <Redirect from="/" to="/admin" />
     </Switch>
   </Router>,
   document.getElementById("root")

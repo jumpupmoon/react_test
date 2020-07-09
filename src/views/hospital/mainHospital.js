@@ -31,9 +31,6 @@ export default function Dashboard() {
           <center>
             <img src={logo} style={{ maxWidth: "100%", maxHeight: "100%" }} />
           </center>
-          <center>
-            <h2>환자의 처방전을 안전하게 전송합니다****</h2>
-          </center>
         </CardBody>
       </Card>
       <GridContainer>
