@@ -15,7 +15,7 @@ import routes from "routes.js";
 
 import styles from "assets/jss/material-dashboard-react/layouts/adminStyle.js";
 
-import bgImage from "assets/img/sidebar-2.jpg";
+import bgImage from "assets/img/sidebar-5.jpg";
 import logo from "assets/img/logo.png";
 
 let ps;
@@ -47,7 +47,7 @@ export default function Admin({ ...rest }) {
   const mainPanel = React.createRef();
   // states and functions
   const [image, setImage] = React.useState(bgImage);
-  const [color, setColor] = React.useState("orange"); //왼쪽 네비바 버튼 기본 색 orange로 변경
+  const [color, setColor] = React.useState("kakao"); //왼쪽 네비바 버튼 기본 색 orange로 변경
   const [fixedClasses, setFixedClasses] = React.useState("dropdown show");
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const handleImageClick = (image) => {
