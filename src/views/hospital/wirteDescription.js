@@ -73,50 +73,53 @@ const WirteDescription = () => {
                     onHide={() => setModalShow(false)}
                 />
 
-                <GridContainer>
-                    <GridItem xs={9} sm={9} md={9} />
-                    <GridItem xs={3} sm={3} md={3}> 
-                        <Button variant="secondary">처방</Button>
-                        <Button onClick={() => setModalShow(true)}>약 추가</Button>
-                    </GridItem>
+                        
 
-                </GridContainer>
 
                 <GridContainer>
-                    <GridItem xs={12} sm={6} md={3}>
-                        <Card>
-                            <CardHeader color="success">
-                                <h4 className={classes.cardTitleWhite}>환자 정보</h4>
-                            </CardHeader>
-                            <CardBody>
-                                이름 : 홍길동
-                            </CardBody>
-                        </Card>
+                    <GridItem xs={12} sm={12} md={3}>
+                        <GridItem xs={12} sm={12} md={12}>
+                            <Card>
+                                <CardHeader color="primary">
+                                    <h4 className={classes.cardTitleWhite}>환자 정보</h4>
+                                </CardHeader>
+                                <CardBody>
+                                    이름 : 홍길동
+                                </CardBody>
+                            </Card>
+                        </GridItem>
+                        <GridItem xs={12} sm={12} md={12}>
+                            <Card>
+                                <CardHeader color="primary">
+                                    <h4 className={classes.cardTitleWhite}>병명</h4>
+                                </CardHeader>
+                                <CardBody>
+                                    <CustomInput
+                                        labelText="disease"
+                                        id="disease"
+                                        formControlProps={{
+                                        fullWidth: true
+                                        }}
+                                    />
+                                </CardBody>
+                            </Card>
+                        </GridItem>
                     </GridItem>
 
-                    <GridItem xs={12} sm={6} md={3}>
+                    <GridItem xs={12} sm={12} md={9}>
                         <Card>
-                            <CardHeader color="info">
-                                <h4 className={classes.cardTitleWhite}>병명</h4>
-                            </CardHeader>
-                            <CardBody>
-                                <CustomInput
-                                    labelText="disease"
-                                    id="disease"
-                                    formControlProps={{
-                                    fullWidth: true
-                                    }}
-                                />
-                            </CardBody>
-                        </Card>
-                    </GridItem>
-
-                    <GridItem xs={12} sm={12} md={6}>
-                        <Card>
-                            <CardHeader color="warning">
+                            <CardHeader color="primary">
                                 <h4 className={classes.cardTitleWhite}>약 목록</h4>
                             </CardHeader>
                             <CardBody>
+                                <GridContainer>
+                                    <GridItem xs={9} sm={9} md={9}></GridItem>
+                                    <GridItem xs={3} sm={3} md={3}>
+                                        <Button variant="secondary">처방</Button>
+                                        <Button onClick={() => setModalShow(true)}>약 추가</Button>
+                                    </GridItem>
+                                </GridContainer>
+                                
                                 <div className={classes.tableResponsive}>
                                     <Table className={classes.table}>
                                         <TableBody>
