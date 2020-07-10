@@ -21,6 +21,8 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 import People from "@material-ui/icons/People";
 //core components
 import CustomInput from "components/CustomInput/CustomInput.js";
+import Icon from "@material-ui/core/Icon";
+import SaveIcon from "@material-ui/icons/Save";
 
 const styles = {
   cardCategoryWhite: {
@@ -63,16 +65,24 @@ export default function TableList() {
           <CardHeader color="primary">
             <h4 className={classes.cardTitleWhite}>병원 관리</h4>
             <p className={classes.cardCategoryWhite}>의사 정보 관리</p>
-            <Button type="button" color="info">
-              의사 추가
-            </Button>
           </CardHeader>
           <CardBody>
             <Example />
             <Table
               tableHeaderColor="primary"
-              tableHead={["No", "이름", "전공", "면허번호"]}
-              tableData={[["Dakota Rice", "Niger", "Oud-Turnhout", "$36,738"]]}
+              tableHead={["No", "ID", "이름", "전공", "면허번호"]}
+              tableData={[
+                [
+                  1,
+                  "ckd582",
+                  "망치",
+                  "아야 오함마 가져와야 쓰것다",
+                  "정마담에게 밑에서 한장",
+                ],
+                [2, "dbs582", "오야봉", "고노야로 긴또깡", "이찌방 시보리"],
+                [3, "aoa582", "지민", "이지메 이찌방", "슬프다"],
+                [4, "qud582", "박원순", "슬프다", "나는 어디로"],
+              ]}
             />
           </CardBody>
         </Card>
@@ -89,20 +99,20 @@ function Example() {
 
   return (
     <>
-      <Button variant="primary" onClick={handleShow}>
-        Launch demo modal
+      <Button variant="primary" color="info" onClick={handleShow}>
+        의사 추가
       </Button>
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Modal heading</Modal.Title>
+          <Modal.Title>의사 추가</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Grid container>
             <GridItem xs={12} sm={12} md={4}>
               <CustomInput
-                labelText="Disabled"
-                id="disabled"
+                labelText="Name"
+                id="Name"
                 formControlProps={{
                   fullWidth: true,
                 }}
@@ -113,9 +123,9 @@ function Example() {
             </GridItem>
             <GridItem xs={12} sm={12} md={4}>
               <CustomInput
-                id="regular"
+                id="Major"
                 inputProps={{
-                  placeholder: "Regular",
+                  placeholder: "Major",
                 }}
                 formControlProps={{
                   fullWidth: true,
@@ -124,17 +134,8 @@ function Example() {
             </GridItem>
             <GridItem xs={12} sm={12} md={4}>
               <CustomInput
-                labelText="With floating label"
-                id="float"
-                formControlProps={{
-                  fullWidth: true,
-                }}
-              />
-            </GridItem>
-            <GridItem xs={12} sm={12} md={4}>
-              <CustomInput
-                labelText="Success input"
-                id="success"
+                labelText="Doctor License Number"
+                id="DLN"
                 success
                 formControlProps={{
                   fullWidth: true,
@@ -143,9 +144,9 @@ function Example() {
             </GridItem>
             <GridItem xs={12} sm={12} md={4}>
               <CustomInput
-                labelText="Error input"
-                id="error"
-                error
+                labelText="sarang123"
+                id="Hospital ID"
+                success
                 formControlProps={{
                   fullWidth: true,
                 }}
@@ -170,11 +171,16 @@ function Example() {
           </Grid>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
+          <Button variant="secondary" color="red" onClick={handleClose}>
             Close
           </Button>
-          <Button variant="primary" onClick={handleClose}>
-            Save Changes
+          <Button
+            variant="contained"
+            color="info"
+            startIcon={<SaveIcon />}
+            onClick={handleClose}
+          >
+            Save
           </Button>
         </Modal.Footer>
       </Modal>
