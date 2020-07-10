@@ -72,7 +72,7 @@ const WirteDescription = () => {
     
     return (
         <div class="container">
-            <form method="get" action="/admin">
+            <form method="get" action="/hospital/writeDescriptionSuccess">
                 <AddModal
                     show={modalShow}
                     onHide={() => setModalShow(false)}
@@ -229,7 +229,7 @@ const WirteDescription = () => {
                 <GridContainer>
                     <GridItem xs={11} sm={11} md={11} />
                     <GridItem xs={1} sm={1} md={1}>
-                        <Button variant="secondary">처방</Button>
+                        <Button variant="secondary" type="submit">처방</Button>
                     </GridItem>
                 </GridContainer>
             </form>
