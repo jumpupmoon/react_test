@@ -28,7 +28,7 @@ import Language from "@material-ui/icons/Language";
 // core components/views for Admin layout
 import DashboardPage from "views/hospital/mainHospital.js"; //시작화면 mainHospital.js로 수정
 import searchDescription from "views/hospital/searchDescription.js"; //연결링크 수정
-import wirteDescription from "views/hospital/wirteDescription.js"; //연결링크 수정
+import writeDescription from "views/hospital/writeDescription.js"; //연결링크 수정
 import manageHospital from "views/hospital/manageHospital.js"; //연결링크 수정
 import Icons from "views/Icons/Icons.js";
 import Maps from "views/Maps/Maps.js";
@@ -39,12 +39,12 @@ import RTLPage from "views/RTLPage/RTLPage.js";
 
 const dashboardRoutes = [
   {
-    path: "/dashboard",
+    path: "/mainHospital",
     name: "메인화면", //메뉴명 수정
     rtlName: "لوحة القيادة",
     icon: Dashboard,
     component: DashboardPage,
-    layout: "/admin",
+    layout: "/hospital",
   },
   {
     path: "/searchDescription",
@@ -52,15 +52,15 @@ const dashboardRoutes = [
     rtlName: "ملف تعريفي للمستخدم",
     icon: Search,
     component: searchDescription,
-    layout: "/admin",
+    layout: "/hospital",
   },
   {
-    path: "/wirteDescription",
+    path: "/writeDescription",
     name: "처방전 발급", //메뉴명 수정
     rtlName: "قائمة الجدول",
     icon: Description,
-    component: wirteDescription,
-    layout: "/admin",
+    component: writeDescription,
+    layout: "/hospital",
   },
   {
     path: "/manageHospital",
@@ -68,7 +68,7 @@ const dashboardRoutes = [
     rtlName: "طباعة",
     icon: LocalHospital,
     component: manageHospital,
-    layout: "/admin",
+    layout: "/hospital",
   },
   // 왼쪽 네비 바 필요 없는 부분 삭제
   // {
