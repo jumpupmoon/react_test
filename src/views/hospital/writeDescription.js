@@ -14,6 +14,9 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
+import { Route } from 'react-router-dom';
+
+
 const useStyles = makeStyles(styles);
 
 function AddModal(props) {
@@ -229,7 +232,7 @@ const WirteDescription = () => {
                 <GridContainer>
                     <GridItem xs={11} sm={11} md={11} />
                     <GridItem xs={1} sm={1} md={1}>
-                        <Button variant="secondary" type="submit">처방</Button>
+                        <a href="/description"><Button variant="secondary" type="submit">처방</Button></a>
                     </GridItem>
                 </GridContainer>
             </form>

@@ -36,6 +36,7 @@ import NotificationsPage from "views/Notifications/Notifications.js";
 import UpgradeToPro from "views/UpgradeToPro/UpgradeToPro.js";
 // core components/views for RTL layout
 import RTLPage from "views/RTLPage/RTLPage.js";
+import WriteDescriptionSuccess from "views/hospital/writeDescriptionSuccess";
 
 const dashboardRoutes = [
   {
@@ -70,6 +71,7 @@ const dashboardRoutes = [
     component: manageHospital,
     layout: "/hospital",
   },
+
   // 왼쪽 네비 바 필요 없는 부분 삭제
   // {
   //   path: "/icons",
