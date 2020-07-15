@@ -15,7 +15,8 @@ import TableRow from "@material-ui/core/TableRow";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import { Route } from 'react-router-dom';
-
+import {Link} from 'react-router-dom';
+import Add from 'views/hospital/addMedicine';
 
 const useStyles = makeStyles(styles);
 
@@ -35,12 +36,7 @@ function AddModal(props) {
         </Modal.Header>
 
         <Modal.Body>
-            <h4>Centered Modal</h4>
-            <p>
-                Cras mattis consectetur purus sit amet fermentum. Cras justo odio,
-                dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac
-                consectetur ac, vestibulum at eros.
-            </p>
+            <Add />
         </Modal.Body>
         <Modal.Footer>
             <Button onClick={props.onHide}>닫기</Button>
@@ -232,7 +228,7 @@ const WirteDescription = () => {
                 <GridContainer>
                     <GridItem xs={11} sm={11} md={11} />
                     <GridItem xs={1} sm={1} md={1}>
-                        <a href="/description"><Button variant="secondary" type="submit">처방</Button></a>
+                        <Link to = {'/description'}><Button variant="secondary" type="submit">처방</Button></Link>
                     </GridItem>
                 </GridContainer>
             </form>
