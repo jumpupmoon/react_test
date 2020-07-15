@@ -39,7 +39,7 @@ function AddModal(props) {
             <Add />
         </Modal.Body>
         <Modal.Footer>
-            <Button onClick={props.onHide}>닫기</Button>
+            <Button onClick={props.onHide}> 추가 </Button> <Button onClick={props.onHide}>닫기</Button> 
         </Modal.Footer>
       </Modal>
     );
@@ -228,7 +228,7 @@ const WirteDescription = () => {
                 <GridContainer>
                     <GridItem xs={11} sm={11} md={11} />
                     <GridItem xs={1} sm={1} md={1}>
-                        <Link to = {'/description'}><Button variant="secondary" type="submit">처방</Button></Link>
+                        <Link to = {'/hospital/writeDescriptionSuccess'}><Button variant="secondary" type="submit">처방</Button></Link>
                     </GridItem>
                 </GridContainer>
             </form>

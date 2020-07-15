@@ -31,8 +31,6 @@ ReactDOM.render(
   <Router history={hist}>
     <Switch>
       <Route path="/hospital" component={Hospital} />
-      <Route path="/description" component={writeDescriptionSuccess} />
-      <Route path="/add" component={addMedicine} />
       <Redirect from="/" to="/hospital/mainHospital" />
     </Switch>
   </Router>,
