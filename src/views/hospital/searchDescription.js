@@ -1,11 +1,16 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
+import axios from 'axios';
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 //import InputLabel from "@material-ui/core/InputLabel";
 // core components
 import GridItem from "components/Grid/GridItem.js";
 import GridContainer from "components/Grid/GridContainer.js";
-import Table from "components/Table/Table.js";
+import Table from "@material-ui/core/Table";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
 import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
@@ -47,6 +52,36 @@ const useStyles = makeStyles(styles);
 
 export default function SearchDescription() {
   const classes = useStyles();
+  const tableHead = ["ID", "환자명", "진료일자", "의사ID", "병명"];
+
+  const [description, setDescription] = useState([]);
+  const [patient, setPatient] = useState();
+  const [date, setDate] = useState();
+  const [doctor, setDoctor] = useState();
+  const [sort, setSort] = useState();
+
+  // 정렬
+  useEffect(() => {
+    if(sort === undefined) return;
+    search();
+  }, [sort])
+
+  // 검색
+  const search = () => {
+    axios.get('/api/description/search', {
+      params: {
+        patient,
+        date,
+        doctor,
+        sort
+      }
+    })
+    .then(res => {
+      console.log(res.data);
+      setDescription([...res.data]);
+    })
+  }
+
   return (
     <GridContainer>
       {/* 처방전 검색 바 시작 */}
@@ -69,6 +104,7 @@ export default function SearchDescription() {
                   formControlProps={{
                     fullWidth: true,
                   }}
+                  onChange={e => setPatient(e.target.value)}
                 />
               </GridItem>
               <GridItem xs={12} sm={12} md={3}>
@@ -78,6 +114,7 @@ export default function SearchDescription() {
                   formControlProps={{
                     fullWidth: true,
                   }}
+                  onChange={e => setDate(e.target.value)}
                 />
               </GridItem>
               <GridItem xs={12} sm={12} md={3}>
@@ -87,10 +124,11 @@ export default function SearchDescription() {
                   formControlProps={{
                     fullWidth: true,
                   }}
+                  onChange={e => setDoctor(e.target.value)}
                 />
               </GridItem>
               <GridItem xs={12} sm={12} md={3}>
-                <Button color="primary">SEARCH</Button>
+                <Button color="primary" onClick={() => search()}>SEARCH</Button>
               </GridItem>
             </GridContainer>
           </CardBody>
@@ -109,24 +147,53 @@ export default function SearchDescription() {
           </CardHeader>
           <br />
           <GridItem xs={12} sm={12} md={3}>
-            <select name="job">
+            <select name="sort" onChange={e => setSort(e.target.value)}>
               <option value="">정렬 순</option>
-              <option value="학생">진료일자</option>
-              <option value="회사원">환자명</option>
+              <option value="createDate">진료일자</option>
+              <option value="patient">환자명</option>
             </select>
           </GridItem>
           <CardBody>
-            <Table
-              tableHeaderColor="primary"
-              tableHead={["ID", "환자명", "진료일자", "의사ID", "병명"]}
-              tableData={[
-                ["1", "윤창진", "2020-02-22", "22", "Oud-Turnhout"],
-                ["2", "진지훈", "2020-02-12", "23", "Sinaai-Waas"],
-                ["3", "황형진", "2020-02-02", "345", "Baileux"],
-                ["4", "추은정", "2020-03-22", "12", "Overland Park"],
-                ["5", "김기범", "2020-12-22", "45", "Feldkirchen in Kärnten"],
-              ]}
-            />
+            <Table className={classes.table}>
+              <TableHead className={classes['primary' + "TableHeader"]}>
+                <TableRow className={classes.tableHeadRow}>
+                  {tableHead.map((prop, key) => {
+                      return (
+                      <TableCell
+                          className={classes.tableCell + " " + classes.tableHeadCell}
+                          key={key}
+                      >
+                          {prop}
+                      </TableCell>
+                      );
+                  })}
+                </TableRow>
+              </TableHead>
+
+              <TableBody>
+                {description.map((prop, key) => {
+                  return (
+                    <TableRow key={key} className={classes.tableBodyRow}>
+                      <TableCell className={classes.tableCell}>
+                        {prop._id}
+                      </TableCell>
+                      <TableCell className={classes.tableCell}>
+                        {prop.patient}
+                      </TableCell>
+                      <TableCell className={classes.tableCell}>
+                        {prop.doctor}
+                      </TableCell>
+                      <TableCell className={classes.tableCell}>
+                        {prop.disease}
+                      </TableCell>
+                      <TableCell className={classes.tableCell}>
+                        {prop.createDate}
+                      </TableCell>
+                    </TableRow>
+                  )
+                })}
+              </TableBody>
+          </Table>
           </CardBody>
         </Card>
       </GridItem>
