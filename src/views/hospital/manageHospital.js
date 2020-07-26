@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 // core components
@@ -10,9 +11,6 @@ import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
 import Button from "components/CustomButtons/Button.js";
 import Modal from "react-bootstrap/Modal";
-import ModalDialog from "react-bootstrap/ModalDialog";
-import ModalBody from "react-bootstrap/ModalBody";
-import ModalFooter from "react-bootstrap/ModalFooter";
 import "bootstrap/dist/css/bootstrap.min.css";
 // @material-ui/core components
 import Grid from "@material-ui/core/Grid";
@@ -21,7 +19,6 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 import People from "@material-ui/icons/People";
 //core components
 import CustomInput from "components/CustomInput/CustomInput.js";
-import Icon from "@material-ui/core/Icon";
 import SaveIcon from "@material-ui/icons/Save";
 
 const styles = {
@@ -58,7 +55,44 @@ const useStyles = makeStyles(styles);
 
 export default function TableList() {
   const classes = useStyles();
+
+  const [docters, setDocters] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  const fetchDocters = async () => {
+    try {
+      // 요청이 시작 할 때에는 error 와 Docters 를 초기화하고
+      setError(null);
+      setDocters(null);
+      // loading 상태를 true 로 바꿉니다.
+      setLoading(true);
+      const response = await axios.get("http://localhost:5000/api/doctors");
+      setDocters(response.data); // 데이터는 response.data 안에 들어있습니다.
+    } catch (e) {
+      setError(e);
+    }
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    fetchDocters();
+  }, []);
+
+  if (loading) return <div>로딩중..</div>;
+  if (error) return <div>에러가 발생했습니다</div>;
+  if (!docters) return null;
+
   return (
+    // <ol>
+    // {docters.map((docter) => (
+    //   <li key={docter.id}>
+    //     {docter.name} {docter.major} {docter.license}
+    //   </li>
+    // ))}
+    //   <Example />
+    // </ol>
+
     <GridContainer>
       <GridItem xs={12} sm={12} md={12}>
         <Card>
@@ -67,18 +101,10 @@ export default function TableList() {
             <p className={classes.cardCategoryWhite}>의사 정보 관리</p>
           </CardHeader>
           <CardBody>
-            <Example />
             <Table
               tableHeaderColor="primary"
               tableHead={["No", "ID", "이름", "전공", "면허번호"]}
               tableData={[
-                [
-                  1,
-                  "ckd582",
-                  "망치",
-                  "아야 오함마 가져와야 쓰것다",
-                  "정마담에게 밑에서 한장",
-                ],
                 [2, "dbs582", "오야봉", "고노야로 긴또깡", "이찌방 시보리"],
                 [3, "aoa582", "지민", "이지메 이찌방", "슬프다"],
                 [4, "qud582", "박원순", "슬프다", "나는 어디로"],
@@ -86,6 +112,7 @@ export default function TableList() {
             />
           </CardBody>
         </Card>
+        <Example />
       </GridItem>
     </GridContainer>
   );
