@@ -54,7 +54,7 @@ const useStyles = makeStyles(styles);
 
 export default function SearchDescription() {
   const classes = useStyles();
-  const tableHead = ["ID", "환자명", "진료일자", "의사ID", "병명"];
+  const tableHead = ["ID", "환자명", "의사ID", "병명", "진료일자"];
 
   const [description, setDescription] = useState([]);
   const [patient, setPatient] = useState();
