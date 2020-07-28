@@ -17,6 +17,8 @@ import CardBody from "components/Card/CardBody.js";
 import CardFooter from "components/Card/CardFooter.js";
 import CustomInput from "components/CustomInput/CustomInput.js";
 import Button from "components/CustomButtons/Button.js";
+import { Pagination } from '@material-ui/lab';
+
 
 const styles = {
   cardCategoryWhite: {
@@ -59,12 +61,21 @@ export default function SearchDescription() {
   const [date, setDate] = useState();
   const [doctor, setDoctor] = useState();
   const [sort, setSort] = useState();
+  const [page, setPage] = useState(1);
+  const [endPage, setEndPage] = useState(0);
 
   // 정렬
   useEffect(() => {
     if(sort === undefined) return;
+    setPage(1);
     search();
   }, [sort])
+
+  // 페이지 변경시 검색 결과 새로고침
+  useEffect(() => {
+    if(endPage == 0) return;
+    search();
+  }, [page])
 
   // 검색
   const search = () => {
@@ -73,14 +84,20 @@ export default function SearchDescription() {
         patient,
         date,
         doctor,
-        sort
+        sort,
+        page
       }
     })
     .then(res => {
       console.log(res.data);
-      setDescription([...res.data]);
+      setEndPage(res.data[1])
+      setDescription([...res.data[0]]);
     })
   }
+
+  const handleChange = (event, value) => {
+    setPage(value);
+  };
 
   return (
     <GridContainer>
@@ -193,7 +210,11 @@ export default function SearchDescription() {
                   )
                 })}
               </TableBody>
-          </Table>
+            </Table>
+            {/* 페이징 */}
+            <div className={classes.pageNation}>
+              <Pagination count={endPage} page={page} onChange={handleChange} />
+            </div>
           </CardBody>
         </Card>
       </GridItem>
