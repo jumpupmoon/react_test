@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Component } from "react";
 import axios from "axios";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
@@ -128,7 +128,7 @@ export default function TableList() {
                 </TableBody>
               </Table>
             </TableContainer>
-            <Example />
+            <Create />
           </CardBody>
         </Card>
       </GridItem>
@@ -136,89 +136,191 @@ export default function TableList() {
   );
 }
 
-function Example() {
-  const [show, setShow] = useState(false);
-  const [doctor, setDocters] = useState(null);
+// function Example() {
+//   const [show, setShow] = useState(false);
+//   const [doctor, setDocters] = useState(null);
 
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+//   const handleClose = () => setShow(false);
+//   const handleShow = () => setShow(true);
 
-  const addDoctor = async () => {
-    handleSubmit = (event) => {
-      axios
-        .post(this.props.quote_service_url, { quote: this.state.quote })
-        .then((r) => console.log(r))
-        .catch((e) => console.log(e));
+//   const addDoctor = async () => {
+//     console.log();
+//   };
 
-      event.preventDefault();
+//   return (
+//     <>
+//       <Button variant="primary" color="info" onClick={handleShow}>
+//         의사 추가
+//       </Button>
+
+//       <Modal show={show} onHide={handleClose}>
+//         <Modal.Header closeButton>
+//           <Modal.Title>의사 추가</Modal.Title>
+//         </Modal.Header>
+//         <Modal.Body>
+//           <Grid container>
+//             <GridItem xs={12} sm={12} md={4}>
+//               <CustomInput
+//                 labelText="이름"
+//                 id="name"
+//                 formControlProps={{
+//                   fullWidth: true,
+//                 }}
+//               />
+//             </GridItem>
+//             <GridItem xs={12} sm={12} md={4}>
+//               <CustomInput
+//                 labelText="비밀번호"
+//                 type="password"
+//                 id="password"
+//                 formControlProps={{
+//                   fullWidth: true,
+//                 }}
+//               />
+//             </GridItem>
+//             <GridItem xs={12} sm={12} md={4}>
+//               <CustomInput
+//                 labelText="전공"
+//                 id="major"
+//                 formControlProps={{
+//                   fullWidth: true,
+//                 }}
+//               />
+//             </GridItem>
+//             <GridItem xs={12} sm={12} md={4}>
+//               <CustomInput
+//                 labelText="면허번호"
+//                 id="license"
+//                 formControlProps={{
+//                   fullWidth: true,
+//                 }}
+//               />
+//             </GridItem>
+//           </Grid>
+//         </Modal.Body>
+//         <Modal.Footer>
+//           <Button variant="secondary" color="red" onClick={handleClose}>
+//             취소
+//           </Button>
+//           <Button
+//             variant="contained"
+//             color="info"
+//             startIcon={<SaveIcon />}
+//             onClick={addDoctor}
+//           >
+//             추가
+//           </Button>
+//         </Modal.Footer>
+//       </Modal>
+//     </>
+//   );
+// }
+
+class Create extends Component {
+  constructor(props) {
+    super(props);
+    this.onChangeWriter = this.onChangeWriter.bind(this);
+    this.onChangeTitle = this.onChangeTitle.bind(this);
+    this.onChangeContent = this.onChangeContent.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
+    var today = new Date(),
+      Calendar =
+        today.getFullYear() +
+        "-" +
+        (today.getMonth() + 1) +
+        "-" +
+        today.getDate();
+    this.state = {
+      writer: "",
+      title: "",
+      content: "",
+      date: Calendar,
     };
-  };
+  }
+  onChangeWriter(e) {
+    this.setState({
+      writer: e.target.value,
+    });
+  }
+  onChangeTitle(e) {
+    this.setState({
+      title: e.target.value,
+    });
+  }
+  onChangeContent(e) {
+    this.setState({
+      content: e.target.value,
+    });
+  }
 
-  return (
-    <>
-      <Button variant="primary" color="info" onClick={handleShow}>
-        의사 추가
-      </Button>
+  onSubmit(e) {
+    e.preventDefault();
+    e.preventDefault();
+    const obj = {
+      writer: this.state.writer,
+      title: this.state.title,
+      content: this.state.content,
+      date: this.state.date,
+    };
+    axios
+      .post("http://localhost:5000/api/board/add", obj) /////////////////////////////////////
+      .then((res) => {
+        console.log(res.data);
+        document.location.href = "/hospital/board";
+      });
+    console.log(
+      `The values are ${this.state.title}, and ${this.state.writer}, ${this.state.content},${this.state.date}`
+    );
 
-      <Modal show={show} onHide={handleClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>의사 추가</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Grid container>
-            <GridItem xs={12} sm={12} md={4}>
-              <CustomInput
-                labelText="이름"
-                id="name"
-                formControlProps={{
-                  fullWidth: true,
-                }}
-              />
-            </GridItem>
-            <GridItem xs={12} sm={12} md={4}>
-              <CustomInput
-                labelText="비밀번호"
-                type="password"
-                id="password"
-                formControlProps={{
-                  fullWidth: true,
-                }}
-              />
-            </GridItem>
-            <GridItem xs={12} sm={12} md={4}>
-              <CustomInput
-                labelText="전공"
-                id="major"
-                formControlProps={{
-                  fullWidth: true,
-                }}
-              />
-            </GridItem>
-            <GridItem xs={12} sm={12} md={4}>
-              <CustomInput
-                labelText="면허번호"
-                id="license"
-                formControlProps={{
-                  fullWidth: true,
-                }}
-              />
-            </GridItem>
-          </Grid>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" color="red" onClick={handleClose}>
-            취소
-          </Button>
-          <Button
-            variant="contained"
-            color="info"
-            startIcon={<SaveIcon />}
-            onClick={addDoctor}
-          >
-            추가
-          </Button>
-        </Modal.Footer>
-      </Modal>
-    </>
-  );
+    this.setState({
+      writer: "",
+      title: "",
+      content: "",
+      // date : Calendar
+    });
+  }
+
+  render() {
+    return (
+      <div style={{ marginTop: 10 }}>
+        <h3>게시글</h3>
+        <form onSubmit={this.onSubmit}>
+          <div className="form-group">
+            <label>Writer : </label>
+            <input
+              type="text"
+              className="form-control"
+              value={this.state.writer}
+              onChange={this.onChangeWriter}
+            />
+          </div>
+          <div className="form-group">
+            <label>Title : </label>
+            <input
+              type="text"
+              className="form-control"
+              value={this.state.title}
+              onChange={this.onChangeTitle}
+            />
+          </div>
+          <div className="form-group">
+            <label>Content : </label>
+            <input
+              type="text"
+              className="form-control"
+              value={this.state.content}
+              onChange={this.onChangeContent}
+            />
+          </div>
+          <div className="form-group">
+            <input
+              type="submit"
+              value="Register Post"
+              className="btn btn-primary"
+            />
+          </div>
+        </form>
+      </div>
+    );
+  }
 }
