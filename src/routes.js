@@ -35,6 +35,11 @@ import Maps from "views/Maps/Maps.js";
 import NotificationsPage from "views/Notifications/Notifications.js";
 
 import WriteDescriptionSuccess from "views/hospital/writeDescriptionSuccess";
+import Board from "views/hospital/Board/Board";
+import Post from "views/hospital/Board/post";
+import Edit from "views/hospital/Board/detail";
+import React, { Component } from 'react';
+import axios from 'axios';
 
 const dashboardRoutes = [
   {
@@ -72,6 +77,31 @@ const dashboardRoutes = [
     component: WriteDescriptionSuccess,
     layout: "/hospital",
   },
+  {
+    path: "/write",
+    name: "글쓰기", //메뉴명 수정
+    rtlName: "طباعة",
+    icon: Description,
+    component: Post,
+    layout: "/hospital",
+  },
+  {
+    path: "/board",
+    name: "게시판", //메뉴명 수정
+    rtlName: "طباعة",
+    icon: Description,
+    component: Board,
+    layout: "/hospital",
+  },
+  {
+    path: "/edit",
+    name: "게시판", //메뉴명 수정
+    rtlName: "طباعة",
+    icon: Description,
+    component: Edit,
+    layout: "/hospital",
+  },
+
 
   // 왼쪽 네비 바 필요 없는 부분 삭제
   // {

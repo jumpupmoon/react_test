@@ -19,7 +19,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { createBrowserHistory } from "history";
 import { Router, Route, Switch, Redirect } from "react-router-dom";
-
+import Edit from "views/hospital/Board/detail";
 // core components
 import Hospital from "layouts/Hospital.js";
 import "assets/css/material-dashboard-react.css?v=1.9.0";
@@ -31,6 +31,7 @@ ReactDOM.render(
   <Router history={hist}>
     <Switch>
       <Route path="/hospital" component={Hospital} />
+      <Route path="/edit/:id" component={ Edit} />
       <Redirect from="/" to="/hospital/mainHospital" />
     </Switch>
   </Router>,

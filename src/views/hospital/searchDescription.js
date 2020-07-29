@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+
+>>>>>>> d5eec6d3f6c6ba91afaa0859a07b308f18306b58
 import React, {useState, useEffect} from "react";
 import axios from 'axios';
 // @material-ui/core components
@@ -54,19 +58,27 @@ const useStyles = makeStyles(styles);
 
 export default function SearchDescription() {
   const classes = useStyles();
+<<<<<<< HEAD
   const tableHead = ["ID", "환자명", "의사ID", "병명", "진료일자"];
+=======
+  const tableHead = ["ID", "환자명", "진료일자", "의사ID", "병명"];
+>>>>>>> d5eec6d3f6c6ba91afaa0859a07b308f18306b58
 
   const [description, setDescription] = useState([]);
   const [patient, setPatient] = useState();
   const [date, setDate] = useState();
   const [doctor, setDoctor] = useState();
   const [sort, setSort] = useState();
+<<<<<<< HEAD
   const [page, setPage] = useState(1);
   const [endPage, setEndPage] = useState(0);
+=======
+>>>>>>> d5eec6d3f6c6ba91afaa0859a07b308f18306b58
 
   // 정렬
   useEffect(() => {
     if(sort === undefined) return;
+<<<<<<< HEAD
     setPage(1);
     search();
   }, [sort])
@@ -77,6 +89,11 @@ export default function SearchDescription() {
     search();
   }, [page])
 
+=======
+    search();
+  }, [sort])
+
+>>>>>>> d5eec6d3f6c6ba91afaa0859a07b308f18306b58
   // 검색
   const search = () => {
     axios.get('/api/description/search', {
@@ -84,8 +101,12 @@ export default function SearchDescription() {
         patient,
         date,
         doctor,
+<<<<<<< HEAD
         sort,
         page
+=======
+        sort
+>>>>>>> d5eec6d3f6c6ba91afaa0859a07b308f18306b58
       }
     })
     .then(res => {
@@ -210,11 +231,15 @@ export default function SearchDescription() {
                   )
                 })}
               </TableBody>
+<<<<<<< HEAD
             </Table>
             {/* 페이징 */}
             <div className={classes.pageNation}>
               <Pagination count={endPage} page={page} onChange={handleChange} />
             </div>
+=======
+          </Table>
+>>>>>>> d5eec6d3f6c6ba91afaa0859a07b308f18306b58
           </CardBody>
         </Card>
       </GridItem>
