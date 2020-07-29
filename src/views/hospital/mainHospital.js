@@ -46,6 +46,7 @@ export default function Dashboard() {
         <GridItem xs={12} sm={12} md={6}>
           <Card>
             <CardHeader color="primary">
+
               <h4 className={classes.cardTitleWhite}>공지사항</h4>
               <p className={classes.cardCategoryWhite}>
                 최근 5개의 공지사항을 보여줍니다.
@@ -60,6 +61,7 @@ export default function Dashboard() {
     </div>
   );
 }
+
 
 class Mainboard extends Component {
 
