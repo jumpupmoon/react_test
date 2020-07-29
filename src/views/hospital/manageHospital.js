@@ -5,7 +5,7 @@ import { makeStyles } from "@material-ui/core/styles";
 // core components
 import GridItem from "components/Grid/GridItem.js";
 import GridContainer from "components/Grid/GridContainer.js";
-import Table from "components/Table/Table.js";
+// import Table from "components/Table/Table.js";
 import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
@@ -20,6 +20,14 @@ import People from "@material-ui/icons/People";
 //core components
 import CustomInput from "components/CustomInput/CustomInput.js";
 import SaveIcon from "@material-ui/icons/Save";
+
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableContainer from "@material-ui/core/TableContainer";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+import Paper from "@material-ui/core/Paper";
 
 const styles = {
   cardCategoryWhite: {
@@ -84,15 +92,6 @@ export default function TableList() {
   if (!docters) return null;
 
   return (
-    // <ol>
-    // {docters.map((docter) => (
-    //   <li key={docter.id}>
-    //     {docter.name} {docter.major} {docter.license}
-    //   </li>
-    // ))}
-    //   <Example />
-    // </ol>
-
     <GridContainer>
       <GridItem xs={12} sm={12} md={12}>
         <Card>
@@ -101,18 +100,37 @@ export default function TableList() {
             <p className={classes.cardCategoryWhite}>의사 정보 관리</p>
           </CardHeader>
           <CardBody>
-            <Table
-              tableHeaderColor="primary"
-              tableHead={["No", "ID", "이름", "전공", "면허번호"]}
-              tableData={[
-                [2, "dbs582", "오야봉", "고노야로 긴또깡", "이찌방 시보리"],
-                [3, "aoa582", "지민", "이지메 이찌방", "슬프다"],
-                [4, "qud582", "박원순", "슬프다", "나는 어디로"],
-              ]}
-            />
+            <TableContainer component={Paper}>
+              <Table className={classes.table} aria-label="simple table">
+                <TableHead>
+                  <TableRow>
+                    <TableCell>
+                      <b>이름</b>
+                    </TableCell>
+                    <TableCell align="right">
+                      <b>전공</b>
+                    </TableCell>
+                    <TableCell align="right">
+                      <b>면허번호</b>
+                    </TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {docters.map((docter) => (
+                    <TableRow key={docter.id}>
+                      <TableCell component="th" scope="row">
+                        {docter.name}
+                      </TableCell>
+                      <TableCell align="right">{docter.major}</TableCell>
+                      <TableCell align="right">{docter.license}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+            <Example />
           </CardBody>
         </Card>
-        <Example />
       </GridItem>
     </GridContainer>
   );
@@ -120,9 +138,21 @@ export default function TableList() {
 
 function Example() {
   const [show, setShow] = useState(false);
+  const [doctor, setDocters] = useState(null);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  const addDoctor = async () => {
+    handleSubmit = (event) => {
+      axios
+        .post(this.props.quote_service_url, { quote: this.state.quote })
+        .then((r) => console.log(r))
+        .catch((e) => console.log(e));
+
+      event.preventDefault();
+    };
+  };
 
   return (
     <>
@@ -138,22 +168,8 @@ function Example() {
           <Grid container>
             <GridItem xs={12} sm={12} md={4}>
               <CustomInput
-                labelText="Name"
-                id="Name"
-                formControlProps={{
-                  fullWidth: true,
-                }}
-                inputProps={{
-                  disabled: true,
-                }}
-              />
-            </GridItem>
-            <GridItem xs={12} sm={12} md={4}>
-              <CustomInput
-                id="Major"
-                inputProps={{
-                  placeholder: "Major",
-                }}
+                labelText="이름"
+                id="name"
                 formControlProps={{
                   fullWidth: true,
                 }}
@@ -161,9 +177,9 @@ function Example() {
             </GridItem>
             <GridItem xs={12} sm={12} md={4}>
               <CustomInput
-                labelText="Doctor License Number"
-                id="DLN"
-                success
+                labelText="비밀번호"
+                type="password"
+                id="password"
                 formControlProps={{
                   fullWidth: true,
                 }}
@@ -171,9 +187,8 @@ function Example() {
             </GridItem>
             <GridItem xs={12} sm={12} md={4}>
               <CustomInput
-                labelText="sarang123"
-                id="Hospital ID"
-                success
+                labelText="전공"
+                id="major"
                 formControlProps={{
                   fullWidth: true,
                 }}
@@ -181,17 +196,10 @@ function Example() {
             </GridItem>
             <GridItem xs={12} sm={12} md={4}>
               <CustomInput
-                labelText="With material Icons"
-                id="material"
+                labelText="면허번호"
+                id="license"
                 formControlProps={{
                   fullWidth: true,
-                }}
-                inputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <People />
-                    </InputAdornment>
-                  ),
                 }}
               />
             </GridItem>
@@ -199,15 +207,15 @@ function Example() {
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" color="red" onClick={handleClose}>
-            Close
+            취소
           </Button>
           <Button
             variant="contained"
             color="info"
             startIcon={<SaveIcon />}
-            onClick={handleClose}
+            onClick={addDoctor}
           >
-            Save
+            추가
           </Button>
         </Modal.Footer>
       </Modal>
