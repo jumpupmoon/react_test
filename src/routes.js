@@ -33,16 +33,13 @@ import manageHospital from "views/hospital/manageHospital.js"; //연결링크 �
 import Icons from "views/Icons/Icons.js";
 import Maps from "views/Maps/Maps.js";
 import NotificationsPage from "views/Notifications/Notifications.js";
-import UpgradeToPro from "views/UpgradeToPro/UpgradeToPro.js";
-// core components/views for RTL layout
-import RTLPage from "views/RTLPage/RTLPage.js";
+
 import WriteDescriptionSuccess from "views/hospital/writeDescriptionSuccess";
 
 const dashboardRoutes = [
   {
     path: "/mainHospital",
     name: "메인화면", //메뉴명 수정
-    rtlName: "لوحة القيادة",
     icon: Dashboard,
     component: DashboardPage,
     layout: "/hospital",
@@ -50,7 +47,6 @@ const dashboardRoutes = [
   {
     path: "/searchDescription",
     name: "처방전 조회", //메뉴명 수정
-    rtlName: "ملف تعريفي للمستخدم",
     icon: Search,
     component: searchDescription,
     layout: "/hospital",
@@ -58,7 +54,6 @@ const dashboardRoutes = [
   {
     path: "/writeDescription",
     name: "처방전 발급", //메뉴명 수정
-    rtlName: "قائمة الجدول",
     icon: Description,
     component: writeDescription,
     layout: "/hospital",
@@ -66,7 +61,6 @@ const dashboardRoutes = [
   {
     path: "/manageHospital",
     name: "병원 관리", //메뉴명 수정
-    rtlName: "طباعة",
     icon: LocalHospital,
     component: manageHospital,
     layout: "/hospital",
@@ -74,7 +68,6 @@ const dashboardRoutes = [
   {
     path: "/writeDescriptionSuccess",
     name: "처방전 확인", //메뉴명 수정
-    rtlName: "طباعة",
     icon: Description,
     component: WriteDescriptionSuccess,
     layout: "/hospital",
