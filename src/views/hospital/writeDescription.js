@@ -163,7 +163,7 @@ function SearchPatient() {
 const WirteDescription = () => {
   let data = [["약1"], ["약2"], ["약3"], ["약4"], ["약5"]];
 
-  const tableHead = ["약품명", "투여량", "투여횟수", "투약일수", "용법", ""];
+  const tableHead = ["의약품 명칭", "1회투약량", "1일투여횟수", "총량", "용법"];
 
   const delMedi = (idx) => {
     let res = medicine.filter((row, i) => {
@@ -178,151 +178,174 @@ const WirteDescription = () => {
 
   return (
     <div class="container">
-      <form method="get" action="/hospital/writeDescriptionSuccess">
-        <AddModal show={modalShow} onHide={() => setModalShow(false)} />
-
+      <AddModal show={modalShow} onHide={() => setModalShow(false)} />
+      {/* 처방전 폼 태그 시작 */}
+      <form method="post" action="/hospital/writeDescription">
         <GridContainer>
+          {/* 환자 정보 입력 바 시작 */}
           <SearchPatient />
+          {/* 환자 정보 입력 바 끝 */}
+          {/* 질병 분류 기호 검색 바 시작 */}
           <GridItem xs={12} sm={12} md={12}>
             <Card>
               <CardHeader color="primary">
-                <h4 className={classes.cardTitleWhite}>병명</h4>
+                <h4 className={classes.cardTitleWhite}>질병 분류 기호</h4>
               </CardHeader>
               <CardBody>
-                <CustomInput
-                  labelText="질병분류기호"
-                  id="disease"
-                  formControlProps={{
-                    fullWidth: true,
-                  }}
-                />
+                <GridItem xs={11} sm={11} md={10}>
+                  <CustomInput
+                    labelText="질병 명칭 키워드 입력시 코드 정보 제공"
+                    id="disease"
+                    formControlProps={{
+                      fullWidth: true,
+                    }}
+                  />
+                </GridItem>
+                <GridItem xs={11} sm={11} md={1}>
+                  {/* <Button color="primary" onClick={() => search()}>SEARCH</Button> */}
+                  <Button color="primary">SEARCH</Button>
+                </GridItem>
               </CardBody>
             </Card>
           </GridItem>
+          {/* 질병 분류 기호 검색 바 끝 */}
 
+          {/* 처방 의약품 목록 생성 바 시작 */}
           <GridItem xs={12} sm={12} md={12}>
             <Card>
               <CardHeader color="primary">
-                <h4 className={classes.cardTitleWhite}>약 목록</h4>
+                <h4 className={classes.cardTitleWhite}>처방 의약품 목록</h4>
               </CardHeader>
               <CardBody>
                 <GridContainer>
-                  <Table className={classes.table}>
-                    <TableRow>
-                      <TableCell>사용기간</TableCell>
-                      <TableCell>교부일로부터</TableCell>
-                      <TableCell>
-                        <CustomInput
-                          labelText="사용기간"
-                          id="mediDay"
-                          formControlProps={{
-                            fullWidth: true,
-                          }}
-                        />
-                      </TableCell>
-                      <TableCell>일간</TableCell>
-                      <TableCell>
-                        <Button onClick={() => setModalShow(true)}>
-                          약 추가
-                        </Button>
-                      </TableCell>
-                    </TableRow>
-                  </Table>
-                </GridContainer>
+                  {/* 약 추가 버튼 시작 */}
+                  <GridItem xs={11} sm={11} md={11} />
+                  <GridItem xs={1} sm={1} md={1}>
+                    <Button color="primary" onClick={() => setModalShow(true)}>
+                      약 추가
+                    </Button>
+                  </GridItem>
+                  {/* 약 추가 버튼 끝 */}
 
-                <div className={classes.tableResponsive}>
-                  <Table className={classes.table}>
-                    <TableHead className={classes["primary" + "TableHeader"]}>
-                      <TableRow className={classes.tableHeadRow}>
-                        {tableHead.map((prop, key) => {
+                  <div className={classes.tableResponsive}>
+                    {/* 처방 의약품 목록 시작 */}
+                    <Table className={classes.table}>
+                      {/* 테이블 헤더 시작 */}
+                      <TableHead className={classes["primary" + "TableHeader"]}>
+                        <TableRow className={classes.tableHeadRow}>
+                          {tableHead.map((prop, key) => {
+                            return (
+                              <TableCell
+                                className={
+                                  classes.tableCell +
+                                  " " +
+                                  classes.tableHeadCell
+                                }
+                                key={key}
+                              >
+                                {prop}
+                              </TableCell>
+                            );
+                          })}
+                        </TableRow>
+                      </TableHead>
+                      {/* 테이블 헤더 끝 */}
+
+                      {/* 테이블 바디 시작*/}
+                      <TableBody>
+                        {medicine.map((prop, key) => {
                           return (
-                            <TableCell
-                              className={
-                                classes.tableCell + " " + classes.tableHeadCell
-                              }
+                            <TableRow
                               key={key}
+                              className={classes.tableBodyRow}
                             >
-                              {prop}
-                            </TableCell>
+                              {/* 의약품 명칭 시작 */}
+                              {prop.map((prop, key) => {
+                                return (
+                                  <TableCell
+                                    className={classes.tableCell}
+                                    key={key}
+                                  >
+                                    {prop}
+                                  </TableCell>
+                                );
+                              })}
+                              {/* 의약품 명칭 끝 */}
+
+                              {/* 차례로 1회 투약량, 1일 투여횟수, 총량, 용법 셀 시작 */}
+                              <TableCell className={classes.tableCell}>
+                                <CustomInput
+                                  id="one_dose"
+                                  name="one_dose"
+                                  formControlProps={{
+                                    fullWidth: true,
+                                  }}
+                                />
+                              </TableCell>
+                              <TableCell className={classes.tableCell}>
+                                <CustomInput
+                                  id="daily_dose"
+                                  name="daily_dose"
+                                  formControlProps={{
+                                    fullWidth: true,
+                                  }}
+                                />
+                              </TableCell>
+                              <TableCell className={classes.tableCell}>
+                                <CustomInput
+                                  id="total_amount"
+                                  name="total_amount"
+                                  formControlProps={{
+                                    fullWidth: true,
+                                  }}
+                                />
+                              </TableCell>
+                              <TableCell className={classes.tableCell}>
+                                <CustomInput
+                                  id="usage"
+                                  name="usage"
+                                  formControlProps={{
+                                    fullWidth: true,
+                                  }}
+                                />
+                              </TableCell>
+                              {/* 1회 투약량, 1일 투여횟수, 총량, 용법 셀 끝 */}
+
+                              {/* 삭제 버튼 시작 */}
+                              <TableCell className={classes.tableCell}>
+                                <Button
+                                  variant="danger"
+                                  onClick={() => delMedi(key)}
+                                >
+                                  삭제
+                                </Button>
+                              </TableCell>
+                              {/* 삭제 버튼 끝 */}
+                            </TableRow>
                           );
                         })}
-                      </TableRow>
-                    </TableHead>
-
-                    <TableBody>
-                      {medicine.map((prop, key) => {
-                        return (
-                          <TableRow key={key} className={classes.tableBodyRow}>
-                            {prop.map((prop, key) => {
-                              return (
-                                <TableCell
-                                  className={classes.tableCell}
-                                  key={key}
-                                >
-                                  {prop}
-                                </TableCell>
-                              );
-                            })}
-                            <TableCell className={classes.tableCell}>
-                              <CustomInput
-                                id=""
-                                formControlProps={{
-                                  fullWidth: true,
-                                }}
-                              />
-                            </TableCell>
-                            <TableCell className={classes.tableCell}>
-                              <CustomInput
-                                id=""
-                                formControlProps={{
-                                  fullWidth: true,
-                                }}
-                              />
-                            </TableCell>
-                            <TableCell className={classes.tableCell}>
-                              <CustomInput
-                                id=""
-                                formControlProps={{
-                                  fullWidth: true,
-                                }}
-                              />
-                            </TableCell>
-                            <TableCell className={classes.tableCell}>
-                              <CustomInput
-                                id=""
-                                formControlProps={{
-                                  fullWidth: true,
-                                }}
-                              />
-                            </TableCell>
-                            <TableCell className={classes.tableCell}>
-                              <Button
-                                variant="danger"
-                                onClick={() => delMedi(key)}
-                              >
-                                삭제
-                              </Button>
-                            </TableCell>
-                          </TableRow>
-                        );
-                      })}
-                    </TableBody>
-                  </Table>
-                </div>
+                      </TableBody>
+                      {/* 테이블 바디 끝 */}
+                    </Table>
+                    {/* 처방 의약품 목록 끝 */}
+                  </div>
+                </GridContainer>
               </CardBody>
             </Card>
           </GridItem>
-        </GridContainer>
-        <GridContainer>
+          {/* 처방 의약품 목록 생성 바 끝 */}
+
+          {/* 조제시 참고사항 바 시작 */}
           <GridItem xs={12} sm={12} md={12}>
             <Card>
               <CardHeader color="primary">
-                <h4 className={classes.cardTitleWhite}>추가사항</h4>
+                <h4 className={classes.cardTitleWhite}>조제시 참고사항</h4>
               </CardHeader>
               <CardBody>
                 <CustomInput
-                  labelText="메모 특이사항 등"
-                  id="about-me"
+                  labelText="처방시 유의사항에 대해 적어주세요!"
+                  id="note"
+                  name="note"
                   formControlProps={{
                     fullWidth: true,
                   }}
@@ -334,9 +357,9 @@ const WirteDescription = () => {
               </CardBody>
             </Card>
           </GridItem>
-        </GridContainer>
+          {/* 조제시 참고사항 바 끝 */}
 
-        <GridContainer>
+          {/* 처방 버튼 시작 */}
           <GridItem xs={11} sm={11} md={11} />
           <GridItem xs={1} sm={1} md={1}>
             <Link to={"/hospital/writeDescriptionSuccess"}>
@@ -345,8 +368,10 @@ const WirteDescription = () => {
               </Button>
             </Link>
           </GridItem>
+          {/* 처방 버튼 끝 */}
         </GridContainer>
       </form>
+      {/* 처방전 폼 태그 끝 */}
     </div>
   );
 };
