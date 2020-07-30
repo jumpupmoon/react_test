@@ -13,13 +13,13 @@ class DescriptionRow extends Component {
     return (
         <tr>
           <td>
-            {this.props.obj.id}
+            {this.props.obj._id}
           </td>
           <td>
             {this.props.obj.patient}
           </td>
           <td>
-            {this.props.obj.date}
+            {this.props.obj.createDate}
           </td>
           <td>
             {this.props.obj.doctor}

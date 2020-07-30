@@ -42,7 +42,7 @@ class Boardlist extends Component {
   }
   componentDidMount(){
     console.log("zzz")
-    axios.get('http://localhost:5000/api/board/read')
+    axios.get('/api/board/read')
       .then(response => {
         console.log("!!!!!!")
         this.setState({ board: response.data });

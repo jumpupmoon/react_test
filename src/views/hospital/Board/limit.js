@@ -16,7 +16,7 @@ class Limit extends Component {
             {this.props.obj.writer}
           </td>
           <td>
-          <Link to={"/edit/"+this.props.obj._id}>
+          <Link to={"/hospital/edit?id="+this.props.obj._id}>
             {this.props.obj.title}
           </Link>
           </td>
