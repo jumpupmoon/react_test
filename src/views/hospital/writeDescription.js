@@ -18,6 +18,8 @@ import { Route } from "react-router-dom";
 import { Link } from "react-router-dom";
 import Add from "views/hospital/addMedicine";
 import axios from "axios";
+import InputGroup from "react-bootstrap/InputGroup";
+import FormControl from "react-bootstrap/InputGroup";
 
 const useStyles = makeStyles(styles);
 
@@ -50,6 +52,7 @@ function SearchPatient() {
 
   const [patient, setPatient] = useState([]);
   const [name, setName] = useState([]);
+  const [ssn, setSsn] = useState([]);
 
   // 검색
   const search = () => {
@@ -62,6 +65,17 @@ function SearchPatient() {
       .then((res) => {
         console.log(res.data);
         setPatient([...res.data]);
+      });
+  };
+
+  const check = () => {
+    axios
+      .get("/api/patient/check", {
+        params: { name, ssn },
+      })
+      .then((res) => {
+        console.log(res.data);
+        setSsn([...res.data]);
       });
   };
 
@@ -119,6 +133,18 @@ function SearchPatient() {
                           </TableCell>
                           <TableCell className={classes.tableCell}>
                             {prop.tel}
+                          </TableCell>
+
+                          <TableCell className={classes.tableCell}>
+                            <InputGroup className="mb-3">
+                              <InputGroup.Prepend>
+                                <InputGroup.Radio
+                                  name="name"
+                                  aria-label="Radio for following text input"
+                                />
+                              </InputGroup.Prepend>
+                              <FormControl aria-label="Text input with radio" />
+                            </InputGroup>
                           </TableCell>
                         </TableRow>
                       );
