@@ -19,3 +19,9 @@
 1. API 서버랑 프론트 서버 다를때 접근 가능하도록 수정
 
 2. API랑 프론트 연결중 (의사관리)
+
+##// 2020-08-02 작업진행
+
+1. API 프론트 연결 완료
+
+2. kim branch pull 후 jin branch로 push (express 서버 포함)
