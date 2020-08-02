@@ -24,7 +24,12 @@ export default function CustomInput(props) {
     inputProps,
     error,
     success,
+<<<<<<< HEAD
     type,
+=======
+    onChange,
+    onClick,
+>>>>>>> d6018c06d119b51f5eeede98f02607193662affd
   } = props;
 
   const labelClasses = classNames({
@@ -60,7 +65,12 @@ export default function CustomInput(props) {
           underline: underlineClasses,
         }}
         id={id}
+<<<<<<< HEAD
         type={type}
+=======
+        onChange={onChange}
+        onClick={onClick}
+>>>>>>> d6018c06d119b51f5eeede98f02607193662affd
         {...inputProps}
       />
       {error ? (
