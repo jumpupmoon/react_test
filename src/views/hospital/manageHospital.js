@@ -9,17 +9,8 @@ import GridContainer from "components/Grid/GridContainer.js";
 import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
-import Button from "components/CustomButtons/Button.js";
-import Modal from "react-bootstrap/Modal";
+
 import "bootstrap/dist/css/bootstrap.min.css";
-// @material-ui/core components
-import Grid from "@material-ui/core/Grid";
-import InputAdornment from "@material-ui/core/InputAdornment";
-// @material-ui/icons
-import People from "@material-ui/icons/People";
-//core components
-import CustomInput from "components/CustomInput/CustomInput.js";
-import SaveIcon from "@material-ui/icons/Save";
 
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -136,120 +127,40 @@ export default function TableList() {
   );
 }
 
-// function Example() {
-//   const [show, setShow] = useState(false);
-//   const [doctor, setDocters] = useState(null);
-
-//   const handleClose = () => setShow(false);
-//   const handleShow = () => setShow(true);
-
-//   const addDoctor = async () => {
-//     console.log();
-//   };
-
-//   return (
-//     <>
-//       <Button variant="primary" color="info" onClick={handleShow}>
-//         의사 추가
-//       </Button>
-
-//       <Modal show={show} onHide={handleClose}>
-//         <Modal.Header closeButton>
-//           <Modal.Title>의사 추가</Modal.Title>
-//         </Modal.Header>
-//         <Modal.Body>
-//           <Grid container>
-//             <GridItem xs={12} sm={12} md={4}>
-//               <CustomInput
-//                 labelText="이름"
-//                 id="name"
-//                 formControlProps={{
-//                   fullWidth: true,
-//                 }}
-//               />
-//             </GridItem>
-//             <GridItem xs={12} sm={12} md={4}>
-//               <CustomInput
-//                 labelText="비밀번호"
-//                 type="password"
-//                 id="password"
-//                 formControlProps={{
-//                   fullWidth: true,
-//                 }}
-//               />
-//             </GridItem>
-//             <GridItem xs={12} sm={12} md={4}>
-//               <CustomInput
-//                 labelText="전공"
-//                 id="major"
-//                 formControlProps={{
-//                   fullWidth: true,
-//                 }}
-//               />
-//             </GridItem>
-//             <GridItem xs={12} sm={12} md={4}>
-//               <CustomInput
-//                 labelText="면허번호"
-//                 id="license"
-//                 formControlProps={{
-//                   fullWidth: true,
-//                 }}
-//               />
-//             </GridItem>
-//           </Grid>
-//         </Modal.Body>
-//         <Modal.Footer>
-//           <Button variant="secondary" color="red" onClick={handleClose}>
-//             취소
-//           </Button>
-//           <Button
-//             variant="contained"
-//             color="info"
-//             startIcon={<SaveIcon />}
-//             onClick={addDoctor}
-//           >
-//             추가
-//           </Button>
-//         </Modal.Footer>
-//       </Modal>
-//     </>
-//   );
-// }
-
 class Create extends Component {
   constructor(props) {
     super(props);
-    this.onChangeWriter = this.onChangeWriter.bind(this);
-    this.onChangeTitle = this.onChangeTitle.bind(this);
-    this.onChangeContent = this.onChangeContent.bind(this);
+    this.onChangeName = this.onChangeName.bind(this);
+    this.onChangePassword = this.onChangePassword.bind(this);
+    this.onChangeMajor = this.onChangeMajor.bind(this);
+    this.onChangeLicense = this.onChangeLicense.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
-    var today = new Date(),
-      Calendar =
-        today.getFullYear() +
-        "-" +
-        (today.getMonth() + 1) +
-        "-" +
-        today.getDate();
+
     this.state = {
-      writer: "",
-      title: "",
-      content: "",
-      date: Calendar,
+      name: "",
+      password: "",
+      major: "",
+      license: "",
     };
   }
-  onChangeWriter(e) {
+  onChangeName(e) {
     this.setState({
-      writer: e.target.value,
+      name: e.target.value,
     });
   }
-  onChangeTitle(e) {
+  onChangePassword(e) {
     this.setState({
-      title: e.target.value,
+      password: e.target.value,
     });
   }
-  onChangeContent(e) {
+  onChangeMajor(e) {
     this.setState({
-      content: e.target.value,
+      major: e.target.value,
+    });
+  }
+  onChangeLicense(e) {
+    this.setState({
+      license: e.target.value,
     });
   }
 
@@ -257,67 +168,73 @@ class Create extends Component {
     e.preventDefault();
     e.preventDefault();
     const obj = {
-      writer: this.state.writer,
-      title: this.state.title,
-      content: this.state.content,
-      date: this.state.date,
+      name: this.state.name,
+      password: this.state.password,
+      major: this.state.major,
+      license: this.state.license,
     };
     axios
-      .post("http://localhost:5000/api/board/add", obj) /////////////////////////////////////
+      .post("http://localhost:5000/api/doctors", obj) /////////////////////////////////////
       .then((res) => {
         console.log(res.data);
-        document.location.href = "/hospital/board";
+        document.location.href = "/hospital/manageHospital";
       });
-    console.log(
-      `The values are ${this.state.title}, and ${this.state.writer}, ${this.state.content},${this.state.date}`
-    );
 
     this.setState({
-      writer: "",
-      title: "",
-      content: "",
-      // date : Calendar
+      name: "",
+      password: "",
+      major: "",
+      license: "",
     });
   }
 
   render() {
     return (
       <div style={{ marginTop: 10 }}>
-        <h3>게시글</h3>
+        <h3>의사추가</h3>
         <form onSubmit={this.onSubmit}>
           <div className="form-group">
-            <label>Writer : </label>
+            <label>이름 : </label>
             <input
+              required
               type="text"
               className="form-control"
-              value={this.state.writer}
-              onChange={this.onChangeWriter}
+              value={this.state.name}
+              onChange={this.onChangeName}
             />
           </div>
           <div className="form-group">
-            <label>Title : </label>
+            <label>비밀번호 : </label>
             <input
-              type="text"
+              required
+              type="password"
               className="form-control"
-              value={this.state.title}
-              onChange={this.onChangeTitle}
+              value={this.state.password}
+              onChange={this.onChangePassword}
             />
           </div>
           <div className="form-group">
-            <label>Content : </label>
+            <label>전공 : </label>
             <input
+              required
               type="text"
               className="form-control"
-              value={this.state.content}
-              onChange={this.onChangeContent}
+              value={this.state.major}
+              onChange={this.onChangeMajor}
             />
           </div>
           <div className="form-group">
+            <label>면허번호 : </label>
             <input
-              type="submit"
-              value="Register Post"
-              className="btn btn-primary"
+              required
+              type="number"
+              className="form-control"
+              value={this.state.license}
+              onChange={this.onChangeLicense}
             />
+          </div>
+          <div className="form-group">
+            <input type="submit" value="등록" className="btn btn-primary" />
           </div>
         </form>
       </div>
