@@ -7,10 +7,7 @@
   "dependencies": {
     "@material-ui/core": "4.10.0",
     "@material-ui/icons": "4.9.1",
-<<<<<<< HEAD
-=======
     "@material-ui/lab": "^4.0.0-alpha.56",
->>>>>>> d6018c06d119b51f5eeede98f02607193662affd
     "axios": "^0.19.2",
     "bootstrap": "^4.5.0",
     "chartist": "0.10.1",
