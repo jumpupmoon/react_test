@@ -105,19 +105,19 @@ export default function TableList() {
                         scope="row"
                         align="center"
                       >
-                        {row.patient_name}
+                        {row.patient}
                       </StyledTableCell>
                       <StyledTableCell align="center">
-                        {row.disease_code}
+                        {row.disease}
                       </StyledTableCell>
                       <StyledTableCell align="center">
-                        {row.fat}
+                        {row.hospital_name}
                       </StyledTableCell>
                       <StyledTableCell align="center">
-                        {row.doctor_name}
+                        {row.doctor}
                       </StyledTableCell>
                       <StyledTableCell align="center">
-                        {row.expiry_date}
+                        {row.createDate}
                       </StyledTableCell>
                     </StyledTableRow>
                   ))}
