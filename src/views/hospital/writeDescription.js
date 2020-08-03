@@ -21,6 +21,8 @@ import axios from "axios";
 import InputGroup from "react-bootstrap/InputGroup";
 import FormControl from "react-bootstrap/InputGroup";
 
+import SearchDiseaseCode from "./searchDiseaseCode.js"
+
 const useStyles = makeStyles(styles);
 
 function AddModal(props) {
@@ -160,7 +162,7 @@ function SearchPatient() {
   );
 }
 
-const WirteDescription = () => {
+const WriteDescription = () => {
   let data = [["약1"], ["약2"], ["약3"], ["약4"], ["약5"]];
 
   const tableHead = ["의약품 명칭", "1회투약량", "1일투여횟수", "총량", "용법"];
@@ -186,28 +188,7 @@ const WirteDescription = () => {
           <SearchPatient />
           {/* 환자 정보 입력 바 끝 */}
           {/* 질병 분류 기호 검색 바 시작 */}
-          <GridItem xs={12} sm={12} md={12}>
-            <Card>
-              <CardHeader color="primary">
-                <h4 className={classes.cardTitleWhite}>질병 분류 기호</h4>
-              </CardHeader>
-              <CardBody>
-                <GridItem xs={11} sm={11} md={10}>
-                  <CustomInput
-                    labelText="질병 명칭 키워드 입력시 코드 정보 제공"
-                    id="disease"
-                    formControlProps={{
-                      fullWidth: true,
-                    }}
-                  />
-                </GridItem>
-                <GridItem xs={11} sm={11} md={1}>
-                  {/* <Button color="primary" onClick={() => search()}>SEARCH</Button> */}
-                  <Button color="primary">SEARCH</Button>
-                </GridItem>
-              </CardBody>
-            </Card>
-          </GridItem>
+          <SearchDiseaseCode />
           {/* 질병 분류 기호 검색 바 끝 */}
 
           {/* 처방 의약품 목록 생성 바 시작 */}
@@ -376,4 +357,4 @@ const WirteDescription = () => {
   );
 };
 
-export default WirteDescription;
+export default WriteDescription;
