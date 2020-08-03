@@ -22,7 +22,7 @@ class BoardRow extends Component {
             {this.props.obj.writer}
           </td>
           <td>
-            <Link to ={"/edit/"+this.props.obj._id}><button  className="btn btn-danger">{this.props.obj.title}</button></Link>
+            <Link to ={"/hospital/edit?id="+this.props.obj._id}><button  className="btn btn-danger">{this.props.obj.title}</button></Link>
           </td>
           <td>
             {this.props.obj.date}

@@ -1,28 +1,24 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, Component } from "react";
+import axios from "axios";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 // core components
 import GridItem from "components/Grid/GridItem.js";
 import GridContainer from "components/Grid/GridContainer.js";
-import Table from "components/Table/Table.js";
+// import Table from "components/Table/Table.js";
 import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
-import Button from "components/CustomButtons/Button.js";
-import Modal from "react-bootstrap/Modal";
-import ModalDialog from "react-bootstrap/ModalDialog";
-import ModalBody from "react-bootstrap/ModalBody";
-import ModalFooter from "react-bootstrap/ModalFooter";
+
 import "bootstrap/dist/css/bootstrap.min.css";
-// @material-ui/core components
-import Grid from "@material-ui/core/Grid";
-import InputAdornment from "@material-ui/core/InputAdornment";
-// @material-ui/icons
-import People from "@material-ui/icons/People";
-//core components
-import CustomInput from "components/CustomInput/CustomInput.js";
-import Icon from "@material-ui/core/Icon";
-import SaveIcon from "@material-ui/icons/Save";
+
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableContainer from "@material-ui/core/TableContainer";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+import Paper from "@material-ui/core/Paper";
 
 const styles = {
   cardCategoryWhite: {
@@ -58,6 +54,34 @@ const useStyles = makeStyles(styles);
 
 export default function TableList() {
   const classes = useStyles();
+
+  const [docters, setDocters] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  const fetchDocters = async () => {
+    try {
+      // 요청이 시작 할 때에는 error 와 Docters 를 초기화하고
+      setError(null);
+      setDocters(null);
+      // loading 상태를 true 로 바꿉니다.
+      setLoading(true);
+      const response = await axios.get("http://localhost:5000/api/doctors");
+      setDocters(response.data); // 데이터는 response.data 안에 들어있습니다.
+    } catch (e) {
+      setError(e);
+    }
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    fetchDocters();
+  }, []);
+
+  if (loading) return <div>로딩중..</div>;
+  if (error) return <div>에러가 발생했습니다</div>;
+  if (!docters) return null;
+
   return (
     <GridContainer>
       <GridItem xs={12} sm={12} md={12}>
@@ -67,23 +91,35 @@ export default function TableList() {
             <p className={classes.cardCategoryWhite}>의사 정보 관리</p>
           </CardHeader>
           <CardBody>
-            <Example />
-            <Table
-              tableHeaderColor="primary"
-              tableHead={["No", "ID", "이름", "전공", "면허번호"]}
-              tableData={[
-                [
-                  1,
-                  "ckd582",
-                  "망치",
-                  "아야 오함마 가져와야 쓰것다",
-                  "정마담에게 밑에서 한장",
-                ],
-                [2, "dbs582", "오야봉", "고노야로 긴또깡", "이찌방 시보리"],
-                [3, "aoa582", "지민", "이지메 이찌방", "슬프다"],
-                [4, "qud582", "박원순", "슬프다", "나는 어디로"],
-              ]}
-            />
+            <TableContainer component={Paper}>
+              <Table className={classes.table} aria-label="simple table">
+                <TableHead>
+                  <TableRow>
+                    <TableCell>
+                      <b>이름</b>
+                    </TableCell>
+                    <TableCell align="right">
+                      <b>전공</b>
+                    </TableCell>
+                    <TableCell align="right">
+                      <b>면허번호</b>
+                    </TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {docters.map((docter) => (
+                    <TableRow key={docter.id}>
+                      <TableCell component="th" scope="row">
+                        {docter.name}
+                      </TableCell>
+                      <TableCell align="right">{docter.major}</TableCell>
+                      <TableCell align="right">{docter.license}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+            <Create />
           </CardBody>
         </Card>
       </GridItem>
@@ -91,99 +127,117 @@ export default function TableList() {
   );
 }
 
-function Example() {
-  const [show, setShow] = useState(false);
+class Create extends Component {
+  constructor(props) {
+    super(props);
+    this.onChangeName = this.onChangeName.bind(this);
+    this.onChangePassword = this.onChangePassword.bind(this);
+    this.onChangeMajor = this.onChangeMajor.bind(this);
+    this.onChangeLicense = this.onChangeLicense.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
 
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+    this.state = {
+      name: "",
+      password: "",
+      major: "",
+      license: "",
+    };
+  }
+  onChangeName(e) {
+    this.setState({
+      name: e.target.value,
+    });
+  }
+  onChangePassword(e) {
+    this.setState({
+      password: e.target.value,
+    });
+  }
+  onChangeMajor(e) {
+    this.setState({
+      major: e.target.value,
+    });
+  }
+  onChangeLicense(e) {
+    this.setState({
+      license: e.target.value,
+    });
+  }
 
-  return (
-    <>
-      <Button variant="primary" color="info" onClick={handleShow}>
-        의사 추가
-      </Button>
+  onSubmit(e) {
+    e.preventDefault();
+    e.preventDefault();
+    const obj = {
+      name: this.state.name,
+      password: this.state.password,
+      major: this.state.major,
+      license: this.state.license,
+    };
+    axios
+      .post("http://localhost:5000/api/doctors", obj) /////////////////////////////////////
+      .then((res) => {
+        console.log(res.data);
+        document.location.href = "/hospital/manageHospital";
+      });
 
-      <Modal show={show} onHide={handleClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>의사 추가</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Grid container>
-            <GridItem xs={12} sm={12} md={4}>
-              <CustomInput
-                labelText="Name"
-                id="Name"
-                formControlProps={{
-                  fullWidth: true,
-                }}
-                inputProps={{
-                  disabled: true,
-                }}
-              />
-            </GridItem>
-            <GridItem xs={12} sm={12} md={4}>
-              <CustomInput
-                id="Major"
-                inputProps={{
-                  placeholder: "Major",
-                }}
-                formControlProps={{
-                  fullWidth: true,
-                }}
-              />
-            </GridItem>
-            <GridItem xs={12} sm={12} md={4}>
-              <CustomInput
-                labelText="Doctor License Number"
-                id="DLN"
-                success
-                formControlProps={{
-                  fullWidth: true,
-                }}
-              />
-            </GridItem>
-            <GridItem xs={12} sm={12} md={4}>
-              <CustomInput
-                labelText="sarang123"
-                id="Hospital ID"
-                success
-                formControlProps={{
-                  fullWidth: true,
-                }}
-              />
-            </GridItem>
-            <GridItem xs={12} sm={12} md={4}>
-              <CustomInput
-                labelText="With material Icons"
-                id="material"
-                formControlProps={{
-                  fullWidth: true,
-                }}
-                inputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <People />
-                    </InputAdornment>
-                  ),
-                }}
-              />
-            </GridItem>
-          </Grid>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" color="red" onClick={handleClose}>
-            Close
-          </Button>
-          <Button
-            variant="contained"
-            color="info"
-            startIcon={<SaveIcon />}
-            onClick={handleClose}
-          >
-            Save
-          </Button>
-        </Modal.Footer>
-      </Modal>
-    </>
-  );
+    this.setState({
+      name: "",
+      password: "",
+      major: "",
+      license: "",
+    });
+  }
+
+  render() {
+    return (
+      <div style={{ marginTop: 10 }}>
+        <h3>의사추가</h3>
+        <form onSubmit={this.onSubmit}>
+          <div className="form-group">
+            <label>이름 : </label>
+            <input
+              required
+              type="text"
+              className="form-control"
+              value={this.state.name}
+              onChange={this.onChangeName}
+            />
+          </div>
+          <div className="form-group">
+            <label>비밀번호 : </label>
+            <input
+              required
+              type="password"
+              className="form-control"
+              value={this.state.password}
+              onChange={this.onChangePassword}
+            />
+          </div>
+          <div className="form-group">
+            <label>전공 : </label>
+            <input
+              required
+              type="text"
+              className="form-control"
+              value={this.state.major}
+              onChange={this.onChangeMajor}
+            />
+          </div>
+          <div className="form-group">
+            <label>면허번호 : </label>
+            <input
+              required
+              type="number"
+              className="form-control"
+              value={this.state.license}
+              onChange={this.onChangeLicense}
+            />
+          </div>
+          <div className="form-group">
+            <input type="submit" value="등록" className="btn btn-primary" />
+          </div>
+        </form>
+      </div>
+    );
+  }
 }

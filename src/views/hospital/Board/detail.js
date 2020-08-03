@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import queryString from 'query-string';
 
 
 export default class Edit extends Component {
@@ -11,16 +12,17 @@ export default class Edit extends Component {
     this.onChangeContent = this.onChangeContent.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.delete = this.delete.bind(this);
-
+    
     this.state = {
       writer: '',
       title: '',
-      content:''
+      content:'',
+      id: queryString.parse(this.props.location.search).id
     }
   }
 
   componentDidMount() {
-      axios.get('http://localhost:5000/api/board/edit/'+this.props.match.params.id)
+      axios.get('/api/board/edit/'+this.state.id)
           .then(response => {
             console.log(response)
               this.setState({ 
@@ -57,14 +59,14 @@ export default class Edit extends Component {
       title: this.state.title,
       content: this.state.content
     };
-    axios.post('http://localhost:5000/api/board/update/'+this.props.match.params.id, obj)
+    axios.post('/api/board/update/'+this.state.id, obj)
         .then(res => console.log(res.data));
     
     this.props.history.push('/hospital/board');
   }
 
   delete() {
-    axios.delete('http://localhost:5000/api/board/delete/'+this.props.match.params.id)
+    axios.delete('/api/board/delete/'+this.state.id)
         .then(function(res) {
           console.log('Deleted')
           window.location.reload();

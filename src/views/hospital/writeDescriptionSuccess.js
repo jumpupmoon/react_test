@@ -1,70 +1,145 @@
-import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import React, { useState, useEffect, Component } from "react";
+import { withStyles, makeStyles } from "@material-ui/core/styles";
+import axios from "axios";
+// @material-ui/core components
+
+// core components
 import GridItem from "components/Grid/GridItem.js";
 import GridContainer from "components/Grid/GridContainer.js";
-import Table from 'react-bootstrap/Table';
+// import Table from "components/Table/Table.js";
 import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
-import styles from "assets/jss/material-dashboard-react/views/dashboardStyle.js";
 
+import "bootstrap/dist/css/bootstrap.min.css";
 
-const useStyles = makeStyles(styles);
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableContainer from "@material-ui/core/TableContainer";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+import Paper from "@material-ui/core/Paper";
 
-export default function WriteDescriptionSuccess() {
+const StyledTableCell = withStyles((theme) => ({
+  head: {
+    backgroundColor: theme.palette.warning.dark,
+    color: theme.palette.common.white,
+  },
+  body: {
+    fontSize: 14,
+  },
+}))(TableCell);
+
+const StyledTableRow = withStyles((theme) => ({
+  root: {
+    "&:nth-of-type(odd)": {
+      backgroundColor: theme.palette.action.hover,
+    },
+  },
+}))(TableRow);
+
+const useStyles = makeStyles({
+  table: {
+    minWidth: 100,
+  },
+});
+
+export default function TableList() {
   const classes = useStyles();
-  return (
-    <div>
-      <GridContainer>
-        <GridItem xs={12} sm={12} md={12}>
-          <Card>
-            <CardHeader color="primary">
-              <h4 className={classes.cardTitleWhite}>처방전</h4>
-            </CardHeader>
-            <CardBody>
-            <Table bordered hover >
-                  <tbody>
-                    <tr align='center'>
-                        <th>환자 이름 </th>
-                        <th>질병 분류 번호 </th>
-                        <th>의료기관</th>
-                        <th>처방 의료인</th>
-                        <th colSpan='2'>사용 기간</th>
-                        
 
-                    </tr>
-                    <tr>
-                        <td>망치 </td>
-                        <td>감기</td>
-                        <td>약이요병원</td>
-                        <td>윤씨</td>
-                        <td colSpan='2'>07.12</td>
-                        
-                    </tr>
-                    <tr align='center'>
-                        <th colSpan='2'>처방 의약품 명칭 </th>
-                        <th> 1회 투여 횟수</th>
-                        <th>1회 투여량</th>
-                        <th>투약 일수</th>
-                        <th colSpan='2'>용 별</th>
-                    </tr>
-                    <tr>
-                        <td rowSpan='1' colSpan='2'>
-                          감기약
-                          </td>
-                        <td rowSpan='1'>1</td>
-                        <td rowSpan='1'>1</td>
-                        <td rowSpan='1'>3</td>
-                        <td rowspan='2'>용별</td>
-                    </tr>
-                    <tr>
-                    </tr>
-                  </tbody>
-                 </Table>
-            </CardBody>
-          </Card>
-        </GridItem>
-      </GridContainer>
-    </div>
+  const [descriptions, setDescriptions] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  const fetchDescriptions = async () => {
+    try {
+      // 요청이 시작 할 때에는 error 와 Descriptions 를 초기화하고
+      setError(null);
+      setDescriptions(null);
+      // loading 상태를 true 로 바꿉니다.
+      setLoading(true);
+      const response = await axios.get(
+        "http://localhost:5000/api/descriptions/"
+      );
+      setDescriptions(response.data); // 데이터는 response.data 안에 들어있습니다.
+    } catch (e) {
+      setError(e);
+    }
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    fetchDescriptions();
+  }, []);
+
+  if (loading) return <div>로딩중..</div>;
+  if (error) return <div>에러가 발생했습니다</div>;
+  if (!descriptions) return null;
+
+  return (
+    <GridContainer>
+      <GridItem xs={12} sm={12} md={12}>
+        <Card>
+          <CardBody>
+            <TableContainer component={Paper}>
+              <Table className={classes.table} aria-label="customized table">
+                <TableHead>
+                  <TableRow>
+                    <StyledTableCell align="center">환자 이름</StyledTableCell>
+                    <StyledTableCell align="center">
+                      질병 분류 번호
+                    </StyledTableCell>
+                    <StyledTableCell align="center">의료기관</StyledTableCell>
+                    <StyledTableCell align="center">
+                      처방 의료인
+                    </StyledTableCell>
+                    <StyledTableCell align="center">사용 기간</StyledTableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {descriptions.map((row) => (
+                    <StyledTableRow key={row.name}>
+                      <StyledTableCell
+                        component="th"
+                        scope="row"
+                        align="center"
+                      >
+                        {row.patient}
+                      </StyledTableCell>
+                      <StyledTableCell align="center">
+                        {row.disease}
+                      </StyledTableCell>
+                      <StyledTableCell align="center">
+                        {row.hospital_name}
+                      </StyledTableCell>
+                      <StyledTableCell align="center">
+                        {row.doctor}
+                      </StyledTableCell>
+                      <StyledTableCell align="center">
+                        {row.createDate}
+                      </StyledTableCell>
+                    </StyledTableRow>
+                  ))}
+                </TableBody>
+                <TableHead>
+                  <TableRow>
+                    <StyledTableCell align="center">
+                      처방 의약품 명칭
+                    </StyledTableCell>
+                    <StyledTableCell align="center">
+                      1회 투여 횟수
+                    </StyledTableCell>
+                    <StyledTableCell align="center">1회 투여량</StyledTableCell>
+                    <StyledTableCell align="center">투약 일수</StyledTableCell>
+                    <StyledTableCell align="center">용별</StyledTableCell>
+                  </TableRow>
+                </TableHead>
+              </Table>
+            </TableContainer>
+          </CardBody>
+        </Card>
+      </GridItem>
+    </GridContainer>
   );
 }

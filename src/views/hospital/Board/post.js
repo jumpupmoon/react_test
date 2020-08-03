@@ -75,7 +75,7 @@ class Create extends Component {
         content: this.state.content,
         date: this.state.date
       };
-      axios.post('http://localhost:5000/api/board/add', obj) /////////////////////////////////////
+      axios.post('/api/board/add', obj) /////////////////////////////////////
           .then(res => {
             console.log(res.data)
             document.location.href = '/hospital/board'
