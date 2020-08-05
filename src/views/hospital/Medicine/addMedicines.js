@@ -18,58 +18,48 @@ import TableRow from "@material-ui/core/TableRow";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 //모달 창 관련 모듈
-import ShowModalBody from "views/hospital/Medicine/showModalBody";
+import AddModal from "views/hospital/Medicine/showModalBody";
+//특정 url에서 데이터를 가져오기 위한 axios 모듈
+import axios from "axios";
 
 //스타일 설정
 const useStyles = makeStyles(styles);
 
-//모달 창
-function AddModal(props) {
-    return (
-      <Modal
-        {...props}
-        size="lg"
-        aria-labelledby="contained-modal-title-vcenter"
-        centered
-      >
-          {/* 모달 헤더 */}
-        <Modal.Header closeButton>
-          <Modal.Title id="contained-modal-title-vcenter">의약품 추가</Modal.Title>
-        </Modal.Header>
-        {/* 모달 바디 */}
-        <Modal.Body>
-          <ShowModalBody />
-        </Modal.Body>
-        {/* 모달 푸터 */}
-        <Modal.Footer>
-          <Button onClick={props.onHide}> 추가 </Button>{" "}
-          <Button onClick={props.onHide}>닫기</Button>
-        </Modal.Footer>
-      </Modal>
-    );
-  }
+
   
 
 const AddMedicines = () => {
     const classes = useStyles();
-    const [medicine, setMedicine] = useState([]);
+    
+    
+    const [medicines, setMedicines] = useState([['약1'],['약2'],['약3'],['약4'],['약5']]);
+    const [medicineInfo, setMedicineInfo] = useState();
     const [modalShow, setModalShow] = useState(false);
 
-
-    let data = [["약1"], ["약2"], ["약3"], ["약4"], ["약5"]];
-
+   
     const tableHead = ["의약품 명칭", "1회투약량", "1일투여횟수", "총량", "용법"];
 
-    const deleteMedicine = (idx) => {
-        let res = medicine.filter((row, i) => {
-        return i !== idx;
-    });
-    setMedicine(res);
-  };
+    function closeModal(){
+      setModalShow(false);
+    }
 
+    const deleteMedicine = (idx) => {
+        let res = medicines.filter((row, i) => { return i !== idx; });
+        setMedicines(res);
+    };
+
+    const addMedicine = () =>{
+      let temp = medicines.concat(["약8"]);      
+      setMedicines(temp);
+    }
+    //확인 버튼을 누르면 input에 담긴 값을 키워드로 하여 상세정보 받아온 다음,
+    //창 닫기
+    
     return (        
         <GridItem xs={12} sm={12} md={12}>
-        <AddModal show={modalShow} onHide={() => setModalShow(false)} />
+        <AddModal show={modalShow} 
+        onHide={closeModal}
+         />
             <Card>
               <CardHeader color="primary">
                 <h4 className={classes.cardTitleWhite}>처방 의약품 목록</h4>
@@ -83,9 +73,14 @@ const AddMedicines = () => {
                     추가
                     </Button>
                   </GridItem>
+                  <GridItem xs={1} sm={1} md={1}>
+                  <Button variant="danger" onClick={() => addMedicine()}>
+                    추가
+                  </Button>
+                  </GridItem>
                   {/* 약 추가 버튼 끝 */}
                   <GridItem xs={11} sm={11} md={11}>
-                  {/* <div className={classes.tableResponsive}> */}
+             
                     {/* 처방 의약품 목록 시작 */}
                     <Table className={classes.table}>
                       {/* 테이블 헤더 시작 */}
@@ -111,26 +106,24 @@ const AddMedicines = () => {
 
                       {/* 테이블 바디 시작*/}
                       <TableBody>
-                        {medicine.map((prop, key) => {
+                        {/* 한 줄 한줄 반복문 시작 */}
+                        {medicines.map((medicine, i) => {
                           return (
                             <TableRow
-                              key={key}
+                              key={i}
                               className={classes.tableBodyRow}
                             >
-                              {/* 의약품 명칭 시작 */}
-                              {prop.map((prop, key) => {
-                                return (
-                                  <TableCell
-                                    className={classes.tableCell}
-                                    key={key}
+                              {/* 의약품 이름 시작 */}                           
+                              <TableCell
+                                    className={classes.tableCell}  key={i}                                    
                                   >
-                                    {prop}
+                                    {i}{medicine}
                                   </TableCell>
-                                );
-                              })}
+                            
                               {/* 의약품 명칭 끝 */}
 
                               {/* 차례로 1회 투약량, 1일 투여횟수, 총량, 용법 셀 시작 */}
+                              {/* 투약량 */}
                               <TableCell className={classes.tableCell}>
                                 <CustomInput
                                   id="one_dose"
@@ -140,6 +133,7 @@ const AddMedicines = () => {
                                   }}
                                 />
                               </TableCell>
+                              {/* 1일 투여횟수 */}
                               <TableCell className={classes.tableCell}>
                                 <CustomInput
                                   id="daily_dose"
@@ -149,6 +143,7 @@ const AddMedicines = () => {
                                   }}
                                 />
                               </TableCell>
+                              {/* 총량 */}
                               <TableCell className={classes.tableCell}>
                                 <CustomInput
                                   id="total_amount"
@@ -158,6 +153,7 @@ const AddMedicines = () => {
                                   }}
                                 />
                               </TableCell>
+                              {/* 용법 */}
                               <TableCell className={classes.tableCell}>
                                 <CustomInput
                                   id="usage"
@@ -171,17 +167,20 @@ const AddMedicines = () => {
 
                               {/* 삭제 버튼 시작 */}
                               <TableCell className={classes.tableCell}>
+                                
                                 <Button
                                   variant="danger"
-                                  onClick={() => deleteMedicine(key)}
+                                  onClick={() => deleteMedicine(i)}
                                 >
                                   삭제
                                 </Button>
                               </TableCell>
                               {/* 삭제 버튼 끝 */}
+                              
                             </TableRow>
                           );
                         })}
+                        {/* 한줄 반복문 끝 */}
                       </TableBody>
                       {/* 테이블 바디 끝 */}
                     </Table>
