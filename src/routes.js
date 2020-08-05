@@ -39,7 +39,7 @@ import Board from "views/hospital/Board/Board";
 import Post from "views/hospital/Board/post";
 import Edit from "views/hospital/Board/detail";
 import React, { Component } from 'react';
-import axios from 'axios';
+
 
 const dashboardRoutes = [
   {

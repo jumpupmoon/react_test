@@ -21,7 +21,7 @@ import axios from "axios";
 import InputGroup from "react-bootstrap/InputGroup";
 import FormControl from "react-bootstrap/InputGroup";
 //질병 코드 검색 바 가져오기
-import SearchDiseaseCode from "./searchDiseaseCode"
+import SearchDiseaseCode from "./Disease/searchDiseaseCode"
 import AddMedicines from "./Medicine/addMedicines"
 
 const useStyles = makeStyles(styles);

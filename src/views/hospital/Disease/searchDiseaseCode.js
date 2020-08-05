@@ -19,6 +19,8 @@ import { Button } from "react-bootstrap";
 
 
 const useStyles = makeStyles(styles);
+let barIsVisible = true;
+let resultIsVisible = false;
 
 const SearchDiseaseCode = () => {
     const classes = useStyles();
@@ -37,7 +39,11 @@ const SearchDiseaseCode = () => {
       })
       .then((res) => {
         console.log(res.data);
-        setSickCdInfo(res.data);
+        if(res.data != null) {
+          resultIsVisible = true;
+          barIsVisible = false;
+          setSickCdInfo(res.data);
+        }  
       });
   };
 
@@ -45,11 +51,13 @@ const SearchDiseaseCode = () => {
     return (        
             <GridItem xs={12} sm={12} md={12}>            
             <Card>
-              {/* 질병 코드 검색 창 시작 */}
+              
               <CardHeader color="primary">
                 <h4 className={classes.cardTitleWhite}>질병 분류 기호</h4>
               </CardHeader>
-              <CardBody>
+             {/* 질병 코드 검색 창 시작 */}
+             {barIsVisible &&
+             <CardBody>
                 <GridItem xs={11} sm={11} md={10}>
                   <CustomInput
                     labelText="질병 명칭 키워드 입력시 코드 정보 제공"
@@ -62,10 +70,11 @@ const SearchDiseaseCode = () => {
                 <GridItem xs={11} sm={11} md={1}>
                   <Button color="primary" onClick={() => searchCode()}>SEARCH</Button>
                 </GridItem>
-              </CardBody>
-            
+              </CardBody>    
+            }        
             {/* 질병 코드 검색 창 끝 */}
             {/* 질병 코드 검색 결과 테이블 시작 */}
+            {resultIsVisible &&
             <CardBody>
                 <GridItem xs={11} sm={11} md={11}>
             <Table className={classes.table}>
@@ -102,6 +111,7 @@ const SearchDiseaseCode = () => {
                 </Table>
                 </GridItem>
                 </CardBody>
+            }
             {/* 질병 코드 검색 결과 테이블 끝 */}
             </Card>
           </GridItem>               
