@@ -34,6 +34,7 @@ const Medicine = (props) => {
     return confirmAction;
   };
   const addConfirm = () => {
+    props.onHide()
     console.log("승현",props.name)
     //props.onHide;
 
@@ -62,7 +63,7 @@ class MedicineContainer extends Component {
     render() {
         return (          
             <div id="medicineNames">
-                {this.props.medicines.map(name => <Medicine name = {name}/>)}
+                {this.props.medicines.map(name => <Medicine name = {name} onHide={this.props.onHide}/>)}
             </div>
         )
     }
@@ -102,12 +103,14 @@ class ShowModalBody extends React.Component {
     render(){
       return (
         <div style = {{textAlign: 'center'}}>
+
           <h4>처방에 필요한 의약품 명을 입력해 주세요.</h4>
           <br></br>
-          <input type= 'text' value = {this.state.keyword} onChange = {this.changeKeyword} placeholder = 'ex)마데카솔연고'/>
+
+          <input type= 'text' value = {this.state.keyword} onChange = {this.changeKeyword} placeholder = 'ex)마데카솔연고'/>      
          
-          
-          <MedicineContainer medicines = {this.dynamicSearch(this.state.keyword)} />
+          <MedicineContainer medicines = {this.dynamicSearch(this.state.keyword)} onHide={this.props.onHide}/>
+
         </div>
       );
     }
@@ -115,7 +118,7 @@ class ShowModalBody extends React.Component {
 
 
 
-//모달 창 AAModal
+//모달 창 AddModal
 const AddModal = (props) => {
     
   //this.handleFormSubmit = this.handleFormSubmit.bind(this)
@@ -133,12 +136,11 @@ const AddModal = (props) => {
       </Modal.Header>
       {/* 모달 바디 */}
       <Modal.Body>
-        <ShowModalBody />
+        <ShowModalBody onHide={props.onHide}/>
       </Modal.Body>
       {/* 모달 푸터 */}
       <Modal.Footer>
-        <Button onClick={props.onHide}> 추가 </Button>{" "}
-        <Button onClick={props.onHide}>닫기</Button>
+        <h6>해당되는 의약품을 클릭하여 주세요.</h6>
       </Modal.Footer>
     </Modal>
   );

@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { Modal, Button } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 //스타일 관련 모듈
 import { makeStyles } from "@material-ui/core/styles";
 import styles from "assets/jss/material-dashboard-react/views/dashboardStyle.js";
@@ -20,7 +20,7 @@ import TableCell from "@material-ui/core/TableCell";
 //모달 창 관련 모듈
 import AddModal from "views/hospital/Medicine/showModalBody";
 //특정 url에서 데이터를 가져오기 위한 axios 모듈
-import axios from "axios";
+
 
 //스타일 설정
 const useStyles = makeStyles(styles);
@@ -32,8 +32,7 @@ const AddMedicines = () => {
     const classes = useStyles();
     
     
-    const [medicines, setMedicines] = useState([['약1'],['약2'],['약3'],['약4'],['약5']]);
-    const [medicineInfo, setMedicineInfo] = useState();
+    const [medicines, setMedicines] = useState([['약1'],['약2'],['약3'],['약4'],['약5']]);   
     const [modalShow, setModalShow] = useState(false);
 
    
@@ -48,7 +47,7 @@ const AddMedicines = () => {
         setMedicines(res);
     };
 
-    const addMedicine = () =>{
+    const addMedicine = (medicineName) =>{
       let temp = medicines.concat(["약8"]);      
       setMedicines(temp);
     }
@@ -57,8 +56,9 @@ const AddMedicines = () => {
     
     return (        
         <GridItem xs={12} sm={12} md={12}>
+          {/* 모달 추가 */}
         <AddModal show={modalShow} 
-        onHide={closeModal}
+        onHide={closeModal} 
          />
             <Card>
               <CardHeader color="primary">
