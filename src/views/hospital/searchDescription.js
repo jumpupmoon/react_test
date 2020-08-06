@@ -18,6 +18,7 @@ import CardFooter from "components/Card/CardFooter.js";
 import CustomInput from "components/CustomInput/CustomInput.js";
 import Button from "components/CustomButtons/Button.js";
 import { Pagination } from "@material-ui/lab";
+import { Link } from "react-router-dom";
 
 const styles = {
   cardCategoryWhite: {
@@ -196,7 +197,9 @@ export default function SearchDescription() {
                   return (
                     <TableRow key={key} className={classes.tableBodyRow}>
                       <TableCell className={classes.tableCell}>
-                        {prop._id}
+                        <Link to={"/hospital/descriptions?id=" + prop._id}>
+                          {prop._id}
+                        </Link>
                       </TableCell>
                       <TableCell className={classes.tableCell}>
                         {prop.patient}

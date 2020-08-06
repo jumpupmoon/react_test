@@ -38,8 +38,8 @@ import WriteDescriptionSuccess from "views/hospital/writeDescriptionSuccess";
 import Board from "views/hospital/Board/Board";
 import Post from "views/hospital/Board/post";
 import Edit from "views/hospital/Board/detail";
-import React, { Component } from 'react';
-
+import Descriptions from "views/hospital/writeDescriptionSuccess";
+import React, { Component } from "react";
 
 const dashboardRoutes = [
   {
@@ -101,7 +101,14 @@ const dashboardRoutes = [
     component: Edit,
     layout: "/hospital",
   },
-
+  {
+    path: "/descriptions",
+    name: "처방전 확인", //메뉴명 수정
+    rtlName: "طباعة",
+    icon: Description,
+    component: Descriptions,
+    layout: "/hospital",
+  },
 
   // 왼쪽 네비 바 필요 없는 부분 삭제
   // {
