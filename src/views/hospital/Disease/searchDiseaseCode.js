@@ -20,15 +20,16 @@ import { Button } from "react-bootstrap";
 
 const useStyles = makeStyles(styles);
 let barIsVisible = true;
-let resultIsVisible = false;
+let resultIsVisible = true;
+let selectionIsVisible= true;
 
 const SearchDiseaseCode = () => {
     const classes = useStyles();
 
-    const [sickCdInfo, setSickCdInfo] = useState([]);
+    const [sickCdInfoList, setSickCdInfoList] = useState([]);
     const [searchText, setSearchText] = useState([]);
     //병명 검색 결과 테이블 어트리뷰트
-    const tableHead = ["sickCd", "sickNm"];
+    const tableHead = ["질병 코드", "질병 이름"];
     // SEARCH 버튼을 누르면 해당 함수 실행
   const searchCode = () => {
       axios
@@ -40,9 +41,9 @@ const SearchDiseaseCode = () => {
       .then((res) => {
         console.log(res.data);
         if(res.data != null) {
-          resultIsVisible = true;
-          barIsVisible = false;
-          setSickCdInfo(res.data);
+          //resultIsVisible = true;
+          //barIsVisible = false;
+          setSickCdInfoList([...res.data]);
         }  
       });
   };
@@ -51,7 +52,6 @@ const SearchDiseaseCode = () => {
     return (        
             <GridItem xs={12} sm={12} md={12}>            
             <Card>
-              
               <CardHeader color="primary">
                 <h4 className={classes.cardTitleWhite}>질병 분류 기호</h4>
               </CardHeader>
@@ -60,12 +60,12 @@ const SearchDiseaseCode = () => {
              <CardBody>
                 <GridItem xs={11} sm={11} md={10}>
                   <CustomInput
-                    labelText="질병 명칭 키워드 입력시 코드 정보 제공"
+                    labelText="질병 명칭 키워드 입력시 코드 정보 제공 ex) 가진통, 뇌염"
                     id="searchText"
                     formControlProps={{
                       fullWidth: true,
                     }} onChange={(e) => setSearchText(e.target.value)}
-                  />
+                    />
                 </GridItem>
                 <GridItem xs={11} sm={11} md={1}>
                   <Button color="primary" onClick={() => searchCode()}>SEARCH</Button>
@@ -73,9 +73,8 @@ const SearchDiseaseCode = () => {
               </CardBody>    
             }        
             {/* 질병 코드 검색 창 끝 */}
-            {/* 질병 코드 검색 결과 테이블 시작 */}
-            {/* 검색이 완료되면 그때 보여짐 */}
-            {resultIsVisible &&
+            {/* axios로 받아온 결과 선택 테이블 시작 */}
+            {selectionIsVisible &&
             <CardBody>
                 <GridItem xs={11} sm={11} md={11}>
             <Table className={classes.table}>
@@ -98,7 +97,9 @@ const SearchDiseaseCode = () => {
                   </TableHead>
                   {/* 테이블 헤드 끝 */}
                   {/* 테이블 바디 시작 */}
-                  <TableBody>                                      
+                  <TableBody>
+                    {sickCdInfoList.map((sickCdInfo,key)=>{     
+                      return(                                 
                         <TableRow className={classes.tableBodyRow}>
                           <TableCell className={classes.tableCell}>
                             {sickCdInfo.sickCd}
@@ -106,7 +107,9 @@ const SearchDiseaseCode = () => {
                           <TableCell className={classes.tableCell}>
                             {sickCdInfo.sickNm}
                           </TableCell>
-                         </TableRow>                    
+                         </TableRow> 
+                      )
+                         })}                   
                   </TableBody>
                   {/* 테이블 바디 끝 */}
                 </Table>
@@ -114,9 +117,17 @@ const SearchDiseaseCode = () => {
                 </CardBody>
             }
             {/* 질병 코드 검색 결과 테이블 끝 */}
+                      
+        
+        {/* axios로 받아온 결과 선택 테이블 시작 */}
+
+            {/* 질병 코드 검색 결과 테이블 시작 */}
+            {/* 검색이 완료되면 그때 보여짐 */}
+           
+            {/* 질병 코드 검색 결과 테이블 끝 */}
             </Card>
           </GridItem>               
         );
-};
+          }
 
 export default SearchDiseaseCode;
