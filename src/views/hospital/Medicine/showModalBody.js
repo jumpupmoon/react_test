@@ -34,9 +34,8 @@ const Medicine = (props) => {
     return confirmAction;
   };
   const addConfirm = () => {
-    props.onHide()
-    console.log("승현",props.name)
-    //props.onHide;
+    props.onHide();    
+    props.onAdd(props.name);
 
   };
   const cancelConfirm = () => console.log("취소했습니다.");
@@ -63,7 +62,7 @@ class MedicineContainer extends Component {
     render() {
         return (          
             <div id="medicineNames">
-                {this.props.medicines.map(name => <Medicine name = {name} onHide={this.props.onHide}/>)}
+                {this.props.medicines.map(name => <Medicine name = {name} onHide={this.props.onHide} onAdd={this.props.onAdd}/>)}
             </div>
         )
     }
@@ -109,7 +108,7 @@ class ShowModalBody extends React.Component {
 
           <input type= 'text' value = {this.state.keyword} onChange = {this.changeKeyword} placeholder = 'ex)마데카솔연고'/>      
          
-          <MedicineContainer medicines = {this.dynamicSearch(this.state.keyword)} onHide={this.props.onHide}/>
+          <MedicineContainer medicines = {this.dynamicSearch(this.state.keyword)} onHide={this.props.onHide} onAdd={this.props.onAdd}/>
 
         </div>
       );
@@ -136,7 +135,7 @@ const AddModal = (props) => {
       </Modal.Header>
       {/* 모달 바디 */}
       <Modal.Body>
-        <ShowModalBody onHide={props.onHide}/>
+        <ShowModalBody onHide={props.onHide} onAdd={props.onAdd}/>
       </Modal.Body>
       {/* 모달 푸터 */}
       <Modal.Footer>

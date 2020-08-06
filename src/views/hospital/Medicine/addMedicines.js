@@ -32,33 +32,32 @@ const AddMedicines = () => {
     const classes = useStyles();
     
     
-    const [medicines, setMedicines] = useState([['약1'],['약2'],['약3'],['약4'],['약5']]);   
+    const [medicines, setMedicines] = useState([]);   
     const [modalShow, setModalShow] = useState(false);
 
    
-    const tableHead = ["의약품 명칭", "1회투약량", "1일투여횟수", "총량", "용법"];
+    const tableHead = ["NO.","의약품 명칭", "1회투약량", "1일투여횟수", "총량", "용법"];
 
     function closeModal(){
       setModalShow(false);
     }
-
+//약 이름 목록에 값 삭제하기
     const deleteMedicine = (idx) => {
         let res = medicines.filter((row, i) => { return i !== idx; });
         setMedicines(res);
     };
-
+//약 이름 목록에 값 추가하기
     const addMedicine = (medicineName) =>{
-      let temp = medicines.concat(["약8"]);      
+      let temp = medicines.concat([medicineName]);      
       setMedicines(temp);
     }
-    //확인 버튼을 누르면 input에 담긴 값을 키워드로 하여 상세정보 받아온 다음,
-    //창 닫기
+    
     
     return (        
         <GridItem xs={12} sm={12} md={12}>
           {/* 모달 추가 */}
         <AddModal show={modalShow} 
-        onHide={closeModal} 
+        onHide={closeModal} onAdd={addMedicine}
          />
             <Card>
               <CardHeader color="primary">
@@ -72,12 +71,7 @@ const AddMedicines = () => {
                     <Button color="primary" onClick={() => setModalShow(true)}>
                     추가
                     </Button>
-                  </GridItem>
-                  <GridItem xs={1} sm={1} md={1}>
-                  <Button variant="danger" onClick={() => addMedicine()}>
-                    추가
-                  </Button>
-                  </GridItem>
+                  </GridItem>                 
                   {/* 약 추가 버튼 끝 */}
                   <GridItem xs={11} sm={11} md={11}>
              
@@ -113,11 +107,16 @@ const AddMedicines = () => {
                               key={i}
                               className={classes.tableBodyRow}
                             >
+                              <TableCell
+                                    className={classes.tableCell}  key={i}                                    
+                                  >
+                                    {i+1}
+                                  </TableCell>
                               {/* 의약품 이름 시작 */}                           
                               <TableCell
                                     className={classes.tableCell}  key={i}                                    
                                   >
-                                    {i}{medicine}
+                                    {medicine}
                                   </TableCell>
                             
                               {/* 의약품 명칭 끝 */}
