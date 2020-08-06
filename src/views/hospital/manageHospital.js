@@ -96,12 +96,15 @@ export default function TableList() {
                 <TableHead>
                   <TableRow>
                     <TableCell>
+                      <b>로그인 ID</b>
+                    </TableCell>
+                    <TableCell align="center">
                       <b>이름</b>
                     </TableCell>
-                    <TableCell align="right">
+                    <TableCell align="center">
                       <b>전공</b>
                     </TableCell>
-                    <TableCell align="right">
+                    <TableCell align="center">
                       <b>면허번호</b>
                     </TableCell>
                   </TableRow>
@@ -110,10 +113,11 @@ export default function TableList() {
                   {docters.map((docter) => (
                     <TableRow key={docter.id}>
                       <TableCell component="th" scope="row">
-                        {docter.name}
+                        {docter.id}
                       </TableCell>
-                      <TableCell align="right">{docter.major}</TableCell>
-                      <TableCell align="right">{docter.license}</TableCell>
+                      <TableCell align="center">{docter.name}</TableCell>
+                      <TableCell align="center">{docter.major}</TableCell>
+                      <TableCell align="center">{docter.license}</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
@@ -130,6 +134,7 @@ export default function TableList() {
 class Create extends Component {
   constructor(props) {
     super(props);
+    this.onChangeId = this.onChangeId.bind(this);
     this.onChangeName = this.onChangeName.bind(this);
     this.onChangePassword = this.onChangePassword.bind(this);
     this.onChangeMajor = this.onChangeMajor.bind(this);
@@ -137,12 +142,19 @@ class Create extends Component {
     this.onSubmit = this.onSubmit.bind(this);
 
     this.state = {
+      id: "",
       name: "",
       password: "",
       major: "",
       license: "",
     };
   }
+  onChangeId(e) {
+    this.setState({
+      id: e.target.value,
+    });
+  }
+  onChang;
   onChangeName(e) {
     this.setState({
       name: e.target.value,
@@ -168,17 +180,16 @@ class Create extends Component {
     e.preventDefault();
     e.preventDefault();
     const obj = {
+      id: this.state.id,
       name: this.state.name,
       password: this.state.password,
       major: this.state.major,
       license: this.state.license,
     };
-    axios
-      .post("http://localhost:5000/api/doctors", obj) /////////////////////////////////////
-      .then((res) => {
-        console.log(res.data);
-        document.location.href = "/hospital/manageHospital";
-      });
+    axios.post("http://localhost:5000/api/doctors", obj).then((res) => {
+      console.log(res.data);
+      document.location.href = "/hospital/manageHospital";
+    });
 
     this.setState({
       name: "",
@@ -194,13 +205,13 @@ class Create extends Component {
         <h3>의사추가</h3>
         <form onSubmit={this.onSubmit}>
           <div className="form-group">
-            <label>이름 : </label>
+            <label>로그인 ID : </label>
             <input
               required
-              type="text"
+              type="email"
               className="form-control"
-              value={this.state.name}
-              onChange={this.onChangeName}
+              value={this.state.id}
+              onChange={this.onChangeId}
             />
           </div>
           <div className="form-group">
@@ -211,6 +222,16 @@ class Create extends Component {
               className="form-control"
               value={this.state.password}
               onChange={this.onChangePassword}
+            />
+          </div>
+          <div className="form-group">
+            <label>이름 : </label>
+            <input
+              required
+              type="text"
+              className="form-control"
+              value={this.state.name}
+              onChange={this.onChangeName}
             />
           </div>
           <div className="form-group">
