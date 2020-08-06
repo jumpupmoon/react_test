@@ -74,6 +74,7 @@ const SearchDiseaseCode = () => {
             }        
             {/* 질병 코드 검색 창 끝 */}
             {/* 질병 코드 검색 결과 테이블 시작 */}
+            {/* 검색이 완료되면 그때 보여짐 */}
             {resultIsVisible &&
             <CardBody>
                 <GridItem xs={11} sm={11} md={11}>

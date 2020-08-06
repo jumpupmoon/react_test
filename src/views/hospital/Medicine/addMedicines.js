@@ -25,7 +25,7 @@ import AddModal from "views/hospital/Medicine/showModalBody";
 //스타일 설정
 const useStyles = makeStyles(styles);
 
-
+let medicinesIsVisible = false;
   
 
 const AddMedicines = () => {
@@ -48,7 +48,8 @@ const AddMedicines = () => {
     };
 //약 이름 목록에 값 추가하기
     const addMedicine = (medicineName) =>{
-      let temp = medicines.concat([medicineName]);      
+      let temp = medicines.concat([medicineName]);
+      medicinesIsVisible = true;      
       setMedicines(temp);
     }
     
@@ -73,10 +74,12 @@ const AddMedicines = () => {
                     </Button>
                   </GridItem>                 
                   {/* 약 추가 버튼 끝 */}
-                  <GridItem xs={11} sm={11} md={11}>
-             
+                 
+                  <GridItem xs={12} sm={12} md={12}>           
                     {/* 처방 의약품 목록 시작 */}
-                    <Table className={classes.table}>
+                    {medicinesIsVisible == false?
+                      (<card>아직 처방 의약품이 추가되지 않았습니다 <br></br> 위의 추가버튼으로 추가해주세요</card>):                   
+                       (<Table className={classes.table}>
                       {/* 테이블 헤더 시작 */}
                       <TableHead className={classes["primary" + "TableHeader"]}>
                         <TableRow className={classes.tableHeadRow}>
@@ -182,10 +185,9 @@ const AddMedicines = () => {
                         {/* 한줄 반복문 끝 */}
                       </TableBody>
                       {/* 테이블 바디 끝 */}
-                    </Table>
-                    {/* 처방 의약품 목록 끝 */}
-                  
-                  </GridItem>
+                    </Table>)}
+                    {/* 처방 의약품 목록 끝 */}                  
+                  </GridItem>                  
                 </GridContainer>
               </CardBody>
             </Card>
