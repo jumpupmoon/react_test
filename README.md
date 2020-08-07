@@ -1,239 +1,191 @@
-# [Material Dashboard React](https://demos.creative-tim.com/material-dashboard-react/#/dashboard) [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social&logo=twitter)](https://twitter.com/intent/tweet?url=https%3A%2F%2Fcreativetimofficial.github.io%2Fmaterial-dashboard-react&text=Material%20Dashboard%20React%20-%20Free%20Bootstrap%20Admin%20Template&original_referer=https%3A%2F%2Fdemos.creative-tim.com%2Fmaterial-dashboard-react%2F%3F_ga%3D2.10428917.198078103.1532329372-1803433978.1528781151&via=creativetim&hashtags=react%2Cmaterial-ui)
+# 기술분석서(yakiyo)
 
+Created: Aug 7, 2020 10:02 AM
+Engineers: 은정 추, Jihoon Jin, 형진 황
+Product Manager: 은정 추
 
+# 블록체인 기술 개요
 
-![version](https://img.shields.io/badge/version-1.9.0-blue.svg) ![license](https://img.shields.io/badge/license-MIT-blue.svg) [![GitHub issues open](https://img.shields.io/github/issues/creativetimofficial/material-dashboard-react.svg?maxAge=2592000)]() [![GitHub issues closed](https://img.shields.io/github/issues-closed-raw/creativetimofficial/material-dashboard-react.svg?maxAge=2592000)]() [![Join the chat at https://gitter.im/NIT-dgp/General](https://badges.gitter.im/NIT-dgp/General.svg)](https://gitter.im/creative-tim/material-dashboard?utm_source=share-link&utm_medium=link&utm_campaign=share-link) [![Chat](https://img.shields.io/badge/chat-on%20discord-7289da.svg)](https://discord.gg/E4aHAQy)
+## 0. 처방전 전송 시스템의 이해 및 최근 이슈
 
-![Product Gif](src/assets/github/md-react.gif)
+- 기존 종이로 발급되는 처방전은 병원에서 약국으로 사용자가 직접 전달해야 하는 시스템임.
+- 이로 인해 훼손 및 분실의 가능성이 존재함.
 
-Material Dashboard React is a free Material-UI Admin with a fresh, new design inspired by Google's Material Design. We are very excited to introduce our take on the material concepts through an easy to use and beautiful set of components. Material Dashboard React was built over the popular Material-UI framework.
+> 환자가 처방전을 분실, 재발급을 위해 진료을 받는 경우 진료비 일부는 환자가 부담해야 한다. (2012.01.09, 의사신문[http://www.doctorstimes.com/news/articleView.html?idxno=149203](http://www.doctorstimes.com/news/articleView.html?idxno=149203))
 
-Material Dashboard React makes use of light, surface and movement. The general layout resembles sheets of paper following multiple different layers, so that the depth and order is obvious. The navigation stays mainly on the left sidebar and the content is on the right inside the main panel.
+- 종이 처방전 복사로 인하여 약물 오남용의 가능성이 존재함.(수면제 과다 처방 등)
 
-Material Dashboard React comes with 5 color filter choices for both the sidebar and the card headers (blue, green, orange, red and purple) and an option to have a background image on the sidebar.
+> 약 중복처방 연간 390만건…오남용 위험↑ (2013.01.28, 중앙일보, [https://news.joins.com/article/10536356](https://news.joins.com/article/10536356))
 
-Material Dashboard React was created using [create-react-app](https://github.com/facebook/create-react-app) and it uses a framework built by our friend [Olivier - Material-UI v3.1.0](https://github.com/mui-org/material-ui), who did an amazing job creating the backbone for the material effects, animations, ripples and transitions. Big thanks to his team for the effort and forward thinking they put into it.
+- 약국에서 의무적으로 처방전을 2년 간 보관해야 하는데 천재 지변으로 훼손 시 약사 책임이 없음, 이를 방지할수 있음.
+- 또한 현재 코로나19로 인하여 사람간의 접촉이 최소화 되는 시점에서 비대면 전송 시스템은 수요가 있을 것으로 보임.
+- 코로나19로 인한 외출과 타인 접촉에 대한 우려가 높은 상황에서 진료의 모든 절차를 비대면으로 진행해 환자의 이동을 최소화하고 약국 내의 조제 대기시간도 없애 편리함과 동시에 안전하게 진행할 수 있어 이용자의 호응도가 높을 것으로 보임.
 
-Special thanks go to:
-+ [React-chartist](https://github.com/fraserxu/react-chartist) for the wonderful charts.
+> 전화상담 처방도 모바일 앱으로 안전하게"...앱에 전자처방전 전송기능 추가(2020.04.24, 알리오폴릿, [http://www.alioplus.go.kr/news/newsDetail.do;jsessionid=7dm44bZcyLGZol0mk4Ynx-dG.node21?brdSeq=7619](http://www.alioplus.go.kr/news/newsDetail.do;jsessionid=7dm44bZcyLGZol0mk4Ynx-dG.node21?brdSeq=7619))
 
-We are very excited to share this dashboard with you and we look forward to hearing your feedback!
+- 병원과 약국의 담합 문제를 방지할 수 있음.(특정 병원에서 제조시 특정 약국에 납품된 약만 사용 하는 사례) - 내 경험...
 
-You can find the Github Repo here.
+## 1. 하이퍼레저 패브릭 개발환경
 
-## Table of Contents
+### 프로젝트 개요
 
-* [Versions](#versions)
-* [Demo](#demo)
-* [Quick Start](#quick-start)
-* [Documentation](#documentation)
-* [File Structure](#file-structure)
-* [Browser Support](#browser-support)
-* [Resources](#resources)
-* [Reporting Issues](#reporting-issues)
-* [Technical Support or Questions](#technical-support-or-questions)
-* [Licensing](#licensing)
-* [Useful Links](#useful-links)
+- 프로젝트명 : **약이요**(yakiyo)
 
+> "비대면으로 사용자가 원하는 약국에 처방전을 전송하는 시스템 구축"
 
-## Versions
+> "사용자가 따로 서류를 준비하지 않아도 보험회사에 간편하게 청구 할 수 있는 보험 청구 시스템 구축"
 
-[<img src="src/assets/github/html.png" width="60" height="60" />](https://www.creative-tim.com/product/material-dashboard)
-[<img src="src/assets/github/react.svg" width="60" height="60" />](https://www.creative-tim.com/product/material-dashboard-react)
-[<img src="src/assets/github/vuejs.png" width="60" height="60" />](https://www.creative-tim.com/product/vue-material-dashboard)
-[<img src="src/assets/github/angular.png" width="60" height="60" />](https://www.creative-tim.com/product/material-dashboard-angular2)
+> "병원 진료 예약을 손쉽게 진행 가능한 시스템 구축"
 
+- 참여자(병원, 약국, 보험회사, 제약회사)
+- 주요 예상 기능
+    - 병원(처방전 조회, 처방전 발급, 병원 관리, 게시판)
+    - 약국(처방전 조회, 처방전 접수, 약국 관리, 재고 관리 및 주문)
+    - 보험회사(보험 접수, 청구 진행)
+    - 제약회사(약품 공급, 사용자 비제조 약 구매 추천 유도)
+    - 사용자(처방전 조회, 처방전 전송, 보험 청구, 비제조 약 구매, 병원 진료 예약)
 
-| HTML | React | Vue | Angular |
-| --- | --- | --- | --- |
-| [![Material Dashboard HTML](src/assets/github/opt_md_thumbnail.jpg)](https://www.creative-tim.com/product/material-dashboard) | [![Material Dashboard React](src/assets/github/opt_mdr_thumbnail.jpg)](https://www.creative-tim.com/product/material-dashboard-react) | [![Vue Material Dashboard ](src/assets/github/opt_md_vue_thumbnail.jpg)](https://www.creative-tim.com/product/vue-material-dashboard) | [![Material Dashboard Angular](src/assets/github/opt_md_angular_thumbnail.jpg)](https://www.creative-tim.com/product/material-dashboard-angular2)
+## 2. 네트워크 기술 정리
 
-## Demo
+1. 하드웨어 소프트웨어 관련
+    - Ubuntu
+    - docker
+    - Hyperledger
+    - node.js - experss
+    - mongoDB
+    - react
+2. [ID](http://2.ID) 관련
+    - Organization(Hospitals, Pharmacies, Insurances, Pharmaceuticals)
+    - CA(Hospitals, Pharmacies, Insurances, Pharmaceuticals)
+    - Peer 확장 가능
+3. 프로세스 관련
 
-| Dashboard | User Profile | Tables | Maps | Notification |
-| --- | --- | --- | --- | --- |
-| [![Start page](src/assets/github/dashboard.png)](https://demos.creative-tim.com/material-dashboard-react/#/dashboard) | [![User profile page](src/assets/github/user_profile.png)](https://demos.creative-tim.com/material-dashboard-react/#/user) | [![Tables page ](src/assets/github/tables.png)](https://demos.creative-tim.com/material-dashboard-react/#/table) | [![Maps Page](src/assets/github/maps.png)](https://demos.creative-tim.com/material-dashboard-react/#/maps) | [![Notification page](src/assets/github/notification.png)](https://demos.creative-tim.com/material-dashboard-react/#/notifications)
+![%E1%84%80%E1%85%B5%E1%84%89%E1%85%AE%E1%86%AF%E1%84%87%E1%85%AE%E1%86%AB%E1%84%89%E1%85%A5%E1%86%A8%E1%84%89%E1%85%A5(yakiyo)%20b85410f79ad94c4795bf24b4f66b3c97/Untitled.png](%E1%84%80%E1%85%B5%E1%84%89%E1%85%AE%E1%86%AF%E1%84%87%E1%85%AE%E1%86%AB%E1%84%89%E1%85%A5%E1%86%A8%E1%84%89%E1%85%A5(yakiyo)%20b85410f79ad94c4795bf24b4f66b3c97/Untitled.png)
 
-[View More](https://demos.creative-tim.com/material-dashboard-react/#/dashboard).
+![%E1%84%80%E1%85%B5%E1%84%89%E1%85%AE%E1%86%AF%E1%84%87%E1%85%AE%E1%86%AB%E1%84%89%E1%85%A5%E1%86%A8%E1%84%89%E1%85%A5(yakiyo)%20b85410f79ad94c4795bf24b4f66b3c97/Untitled%201.png](%E1%84%80%E1%85%B5%E1%84%89%E1%85%AE%E1%86%AF%E1%84%87%E1%85%AE%E1%86%AB%E1%84%89%E1%85%A5%E1%86%A8%E1%84%89%E1%85%A5(yakiyo)%20b85410f79ad94c4795bf24b4f66b3c97/Untitled%201.png)
 
+![%E1%84%80%E1%85%B5%E1%84%89%E1%85%AE%E1%86%AF%E1%84%87%E1%85%AE%E1%86%AB%E1%84%89%E1%85%A5%E1%86%A8%E1%84%89%E1%85%A5(yakiyo)%20b85410f79ad94c4795bf24b4f66b3c97/Untitled%202.png](%E1%84%80%E1%85%B5%E1%84%89%E1%85%AE%E1%86%AF%E1%84%87%E1%85%AE%E1%86%AB%E1%84%89%E1%85%A5%E1%86%A8%E1%84%89%E1%85%A5(yakiyo)%20b85410f79ad94c4795bf24b4f66b3c97/Untitled%202.png)
 
-## Quick start
+![%E1%84%80%E1%85%B5%E1%84%89%E1%85%AE%E1%86%AF%E1%84%87%E1%85%AE%E1%86%AB%E1%84%89%E1%85%A5%E1%86%A8%E1%84%89%E1%85%A5(yakiyo)%20b85410f79ad94c4795bf24b4f66b3c97/Untitled%203.png](%E1%84%80%E1%85%B5%E1%84%89%E1%85%AE%E1%86%AF%E1%84%87%E1%85%AE%E1%86%AB%E1%84%89%E1%85%A5%E1%86%A8%E1%84%89%E1%85%A5(yakiyo)%20b85410f79ad94c4795bf24b4f66b3c97/Untitled%203.png)
 
-Quick start options:
+## 3. 스마트컨트랙트 기술 정리
 
-- `npm i material-dashboard-react`
-- Clone the repo: `git clone https://github.com/creativetimofficial/material-dashboard-react.git`.
-- [Download from Github](https://github.com/creativetimofficial/material-dashboard-react/archive/master.zip).
-- [Download from Creative Tim](https://www.creative-tim.com/product/material-dashboard-react).
+1. 구현
+    - 구조체
 
+    Description
 
-## Documentation
-The documentation for the Material Dashboard React is hosted at our [website](https://demos.creative-tim.com/material-dashboard-react/#/documentation/tutorial).
+    [Untitled](https://www.notion.so/ae559810f1354e6ea54ab646b27d3e95)
 
+    Medicine
 
-## File Structure
+2. 설치
+3. 배포
+4. 테스트
 
-Within the download you'll find the following directories and files:
+## 4. 웹서비스 관련
 
-```
-material-dashboard-react
-.
-├── CHANGELOG.md
-├── ISSUE_TEMPLATE.md
-├── LICENSE.md
-├── README.md
-├── bower.json
-├── gulpfile.js
-├── jsconfig.json
-├── package.json
-├── documentation
-│   ├── assets
-│   │   ├── css
-│   │   ├── img
-│   │   │   └── faces
-│   │   └── js
-│   └── tutorial-components.html
-├── public
-│   ├── favicon.ico
-│   ├── index.html
-│   └── manifest.json
-└── src
-    ├── index.js
-    ├── logo.svg
-    ├── routes.js
-    ├── assets
-    │   ├── css
-    │   │   └── material-dashboard-react.css
-    │   ├── github
-    │   │   ├── md-react.gif
-    │   │   └── react.svg
-    │   ├── img
-    │   │   └── faces
-    │   └── jss
-    │       ├── material-dashboard-react
-    │       │   ├── components
-    │       │   ├── layouts
-    │       │   └── views
-    │       └── material-dashboard-react.js
-    ├── components
-    │   ├── Card
-    │   │   ├── Card.js
-    │   │   ├── CardAvatar.js
-    │   │   ├── CardBody.js
-    │   │   ├── CardFooter.js
-    │   │   ├── CardHeader.js
-    │   │   └── CardIcon.js
-    │   ├── CustomButtons
-    │   │   └── Button.js
-    │   ├── CustomInput
-    │   │   └── CustomInput.js
-    │   ├── CustomTabs
-    │   │   └── CustomTabs.js
-    │   ├── FixedPlugin
-    │   │   └── FixedPlugin.js
-    │   ├── Footer
-    │   │   └── Footer.js
-    │   ├── Grid
-    │   │   ├── GridContainer.js
-    │   │   └── GridItem.js
-    │   ├── Navbars
-    │   │   ├── AdminNavbarLinks.js
-    │   │   ├── Navbar.js
-    │   │   └── RTLNavbarLinks.js
-    │   ├── Sidebar
-    │   │   └── Sidebar.js
-    │   ├── Snackbar
-    │   │   ├── Snackbar.js
-    │   │   └── SnackbarContent.js
-    │   ├── Table
-    │   │   └── Table.js
-    │   ├── Tasks
-    │   │   └── Tasks.js
-    │   └── Typography
-    │       ├── Danger.js
-    │       ├── Info.js
-    │       ├── Muted.js
-    │       ├── Primary.js
-    │       ├── Quote.js
-    │       ├── Success.js
-    │       └── Warning.js
-    ├── layouts
-    │   ├── Admin.js
-    │   └── RTL.js
-    ├── variables
-    │   ├── charts.js
-    │   └── general.js
-    └── views
-        ├── Dashboard
-        │   └── Dashboard.js
-        ├── Icons
-        │   └── Icons.js
-        ├── Maps
-        │   └── Maps.js
-        ├── Notifications
-        │   └── Notifications.js
-        ├── RTLPage
-        │   └── RTLPage.js
-        ├── TableList
-        │   └── TableList.js
-        ├── Typography
-        │   └── Typography.js
-        ├── UpgradeToPro
-        │   └── UpgradeToPro.js
-        └── UserProfile
-            └── UserProfile.js
-```
+- 웹 서버/웹 클라이언트
+    - frontend
+        1. web framework - react.js
+    - backend
+        1. Node.js (Express)
+        2. MongoDB
+    - openAPI
+        1. 공공데이터 포털 -질병정보서비스
+        2. 공공데이터 포털 - 의약품 제품 허가 서비스
 
-## Browser Support
+- 스마트 컨트랙트 연동
 
-At present, we officially aim to support the last two versions of the following browsers:
+# 블록체인 기술 개요
 
-<img src="src/assets/github/chrome.png" width="64" height="64"> <img src="src/assets/github/firefox.png" width="64" height="64"> <img src="src/assets/github/edge.png" width="64" height="64"> <img src="src/assets/github/safari.png" width="64" height="64"> <img src="src/assets/github/opera.png" width="64" height="64">
+## 0. 처방전 전송 시스템의 이해 및 최근 이슈
 
+- 기존 종이로 발급되는 처방전은 병원에서 약국으로 사용자가 직접 전달해야 하는 시스템임.
+- 이로 인해 훼손 및 분실의 가능성이 존재함.
 
-## Resources
-- Demo: https://demos.creative-tim.com/material-dashboard-react
-- Download Page: https://www.creative-tim.com/product/material-dashboard-react
-- Documentation: https://demos.creative-tim.com/material-dashboard-react/#/documentation/tutorial
-- License Agreement: https://www.creative-tim.com/license
-- Support: https://www.creative-tim.com/contact-us
-- Issues: [Github Issues Page](https://github.com/creativetimofficial/material-dashboard-react/issues)
-- [Material Kit React - For Front End Development](https://www.creative-tim.com/product/material-kit-react?ref=github-mdr-free)
+> 환자가 처방전을 분실, 재발급을 위해 진료을 받는 경우 진료비 일부는 환자가 부담해야 한다. (2012.01.09, 의사신문[http://www.doctorstimes.com/news/articleView.html?idxno=149203](http://www.doctorstimes.com/news/articleView.html?idxno=149203))
 
-## Reporting Issues
-We use GitHub Issues as the official bug tracker for the Material Dashboard React. Here are some advices for our users that want to report an issue:
+- 종이 처방전 복사로 인하여 약물 오남용의 가능성이 존재함.(수면제 과다 처방 등)
 
-1. Make sure that you are using the latest version of the Material Dashboard React. Check the CHANGELOG from your dashboard on our [website](https://www.creative-tim.com/).
-2. Providing us reproducible steps for the issue will shorten the time it takes for it to be fixed.
-3. Some issues may be browser specific, so specifying in what browser you encountered the issue might help.
+> 약 중복처방 연간 390만건…오남용 위험↑ (2013.01.28, 중앙일보, [https://news.joins.com/article/10536356](https://news.joins.com/article/10536356))
 
-## Technical Support or Questions
+- 약국에서 의무적으로 처방전을 2년 간 보관해야 하는데 천재 지변으로 훼손 시 약사 책임이 없음, 이를 방지할수 있음.
+- 또한 현재 코로나19로 인하여 사람간의 접촉이 최소화 되는 시점에서 비대면 전송 시스템은 수요가 있을 것으로 보임.
+- 코로나19로 인한 외출과 타인 접촉에 대한 우려가 높은 상황에서 진료의 모든 절차를 비대면으로 진행해 환자의 이동을 최소화하고 약국 내의 조제 대기시간도 없애 편리함과 동시에 안전하게 진행할 수 있어 이용자의 호응도가 높을 것으로 보임.
 
-If you have questions or need help integrating the product please [contact us](https://www.creative-tim.com/contact-us) instead of opening an issue.
+> 전화상담 처방도 모바일 앱으로 안전하게"...앱에 전자처방전 전송기능 추가(2020.04.24, 알리오폴릿, [http://www.alioplus.go.kr/news/newsDetail.do;jsessionid=7dm44bZcyLGZol0mk4Ynx-dG.node21?brdSeq=7619](http://www.alioplus.go.kr/news/newsDetail.do;jsessionid=7dm44bZcyLGZol0mk4Ynx-dG.node21?brdSeq=7619))
 
-## Licensing
+- 병원과 약국의 담합 문제를 방지할 수 있음.(특정 병원에서 제조시 특정 약국에 납품된 약만 사용 하는 사례) - 내 경험...
 
-- Copyright 2020 Creative Tim (https://www.creative-tim.com)
-- Licensed under MIT (https://github.com/creativetimofficial/material-dashboard-react/blob/master/LICENSE.md)
+## 1. 하이퍼레저 패브릭 개발환경
 
-## Useful Links
+### 프로젝트 개요
 
-More products from Creative Tim: <https://www.creative-tim.com/products>
+- 프로젝트명 : **약이요**(yakiyo)
 
-Tutorials: <https://www.youtube.com/channel/UCVyTG4sCw-rOvB9oHkzZD1w>
+> "비대면으로 사용자가 원하는 약국에 처방전을 전송하는 시스템 구축"
 
-Freebies: <https://www.creative-tim.com/products>
+> "사용자가 따로 서류를 준비하지 않아도 보험회사에 간편하게 청구 할 수 있는 보험 청구 시스템 구축"
 
-Affiliate Program (earn money): <https://www.creative-tim.com/affiliates/new>
+> "병원 진료 예약을 손쉽게 진행 가능한 시스템 구축"
 
-Social Media:
+- 참여자(병원, 약국, 보험회사, 제약회사)
+- 주요 예상 기능
+    - 병원(처방전 조회, 처방전 발급, 병원 관리, 게시판)
+    - 약국(처방전 조회, 처방전 접수, 약국 관리, 재고 관리 및 주문)
+    - 보험회사(보험 접수, 청구 진행)
+    - 제약회사(약품 공급, 사용자 비제조 약 구매 추천 유도)
+    - 사용자(처방전 조회, 처방전 전송, 보험 청구, 비제조 약 구매, 병원 진료 예약)
 
-Twitter: <https://twitter.com/CreativeTim>
+## 2. 네트워크 기술 정리
 
-Facebook: <https://www.facebook.com/CreativeTim>
+1. 하드웨어 소프트웨어 관련
+    - Ubuntu
+    - docker
+    - Hyperledger
+    - node.js - experss
+    - mongoDB
+    - react
+2. [ID](http://2.ID) 관련
+    - Organization(Hospitals, Pharmacies, Insurances, Pharmaceuticals)
+    - CA(Hospitals, Pharmacies, Insurances, Pharmaceuticals)
+    - Peer 확장 가능
+3. 프로세스 관련
 
-Dribbble: <https://dribbble.com/creativetim>
+![%E1%84%80%E1%85%B5%E1%84%89%E1%85%AE%E1%86%AF%E1%84%87%E1%85%AE%E1%86%AB%E1%84%89%E1%85%A5%E1%86%A8%E1%84%89%E1%85%A5(yakiyo)%20b85410f79ad94c4795bf24b4f66b3c97/Untitled.png](%E1%84%80%E1%85%B5%E1%84%89%E1%85%AE%E1%86%AF%E1%84%87%E1%85%AE%E1%86%AB%E1%84%89%E1%85%A5%E1%86%A8%E1%84%89%E1%85%A5(yakiyo)%20b85410f79ad94c4795bf24b4f66b3c97/Untitled.png)
 
-Google+: <https://plus.google.com/+CreativetimPage>
+![%E1%84%80%E1%85%B5%E1%84%89%E1%85%AE%E1%86%AF%E1%84%87%E1%85%AE%E1%86%AB%E1%84%89%E1%85%A5%E1%86%A8%E1%84%89%E1%85%A5(yakiyo)%20b85410f79ad94c4795bf24b4f66b3c97/Untitled%201.png](%E1%84%80%E1%85%B5%E1%84%89%E1%85%AE%E1%86%AF%E1%84%87%E1%85%AE%E1%86%AB%E1%84%89%E1%85%A5%E1%86%A8%E1%84%89%E1%85%A5(yakiyo)%20b85410f79ad94c4795bf24b4f66b3c97/Untitled%201.png)
 
-Instagram: <https://instagram.com/creativetimofficial>
+![%E1%84%80%E1%85%B5%E1%84%89%E1%85%AE%E1%86%AF%E1%84%87%E1%85%AE%E1%86%AB%E1%84%89%E1%85%A5%E1%86%A8%E1%84%89%E1%85%A5(yakiyo)%20b85410f79ad94c4795bf24b4f66b3c97/Untitled%202.png](%E1%84%80%E1%85%B5%E1%84%89%E1%85%AE%E1%86%AF%E1%84%87%E1%85%AE%E1%86%AB%E1%84%89%E1%85%A5%E1%86%A8%E1%84%89%E1%85%A5(yakiyo)%20b85410f79ad94c4795bf24b4f66b3c97/Untitled%202.png)
+
+![%E1%84%80%E1%85%B5%E1%84%89%E1%85%AE%E1%86%AF%E1%84%87%E1%85%AE%E1%86%AB%E1%84%89%E1%85%A5%E1%86%A8%E1%84%89%E1%85%A5(yakiyo)%20b85410f79ad94c4795bf24b4f66b3c97/Untitled%203.png](%E1%84%80%E1%85%B5%E1%84%89%E1%85%AE%E1%86%AF%E1%84%87%E1%85%AE%E1%86%AB%E1%84%89%E1%85%A5%E1%86%A8%E1%84%89%E1%85%A5(yakiyo)%20b85410f79ad94c4795bf24b4f66b3c97/Untitled%203.png)
+
+## 3. 스마트컨트랙트 기술 정리
+
+1. 구현
+    - 구조체
+
+    Description
+
+    [Untitled](https://www.notion.so/22b84812e5644334a6bedf3fc5f88606)
+
+    Medicine
+
+2. 설치
+3. 배포
+4. 테스트
+
+## 4. 웹서비스 관련
+
+- 웹 서버/웹 클라이언트
+    - frontend
+        1. web framework - react.js
+    - backend
+        1. Node.js (Express)
+        2. MongoDB
+    - openAPI
+        1. 공공데이터 포털 -질병정보서비스
+        2. 공공데이터 포털 - 의약품 제품 허가 서비스
+
+- 스마트 컨트랙트 연동
